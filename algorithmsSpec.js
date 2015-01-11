@@ -111,21 +111,28 @@ describe("Other: ", function() {
 			testArr = [100, 113, 110, 85, 105, 102, 86, 63, 81, 101, 94, 106, 101, 79, 94, 90, 97];
 			diffArr = getDiffArr(testArr);
 		});
-		it("brute force", function() {
+		it("O(n^2)", function() {
 			expect(bruteForceMaximumSubarray(testArr)).toBe(43);
 		});
-		it("diff arr", function() {
-			expect(diffArr).toEqual([13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7]);
-		});
-		it("find max crossing subarray", function() {
-			expect(findMaxCrossingSubarray(diffArr)).toEqual({
-				left: 7,
-				right: 10,
-				sum: 43
+		describe("O(n*log(n))", function() {
+			it("diff arr", function() {
+				expect(diffArr).toEqual([13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7]);
+			});
+			it("find max crossing subarray", function() {
+				expect(findMaxCrossingSubarray(diffArr)).toEqual({
+					left: 7,
+					right: 10,
+					sum: 43
+				});
+			});
+			it("find max subarray", function() {
+				expect(findMaxSubarray(testArr)).toBe(43);
 			});
 		});
-		it("find max subarray", function() {
-			expect(findMaxSubarray(testArr)).toBe(43)
+		it("O(n)", function() {
+			// expect(findMaxSubarrayLinear(testArr)).toBe(43);
+			// struggling...
 		});
 	});
+	// skipped matrix multiplication stuff in 4.2
 });

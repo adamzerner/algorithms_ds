@@ -299,3 +299,8 @@ function findMaxSubarray(arr, low, high, isDiff) {
 		return Math.max.call(null, leftSum, rightSum, crossSum);
 	}
 }
+
+function findMaxSubarrayLinear(arr) {
+	var maxSubsForEachIndex = [];
+	
+}
