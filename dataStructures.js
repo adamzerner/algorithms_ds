@@ -525,61 +525,56 @@ function BST() {
 BST.prototype._isEmpty = function() {
 	return this.root === null;
 };
-BST.prototype.insert = function(el, root) {
-	var n = new BSTNode(el);
+BST.prototype.insert = function(val, root) {
+	var n = new BSTNode(val);
 	if (this._isEmpty()) this.root = n;
 	else {
 		root = root || this.root;
-		if (el < root.val) {
+		if (val < root.val) {
 			if (!root.left) root.left = n;
-			else this.insert(el, root.left);
+			else this.insert(val, root.left);
 		}
 		else {
 			if (!root.right) root.right = n;
-			else this.insert(el, root.right);
+			else this.insert(val, root.right);
 		}
 	}
 };
 BST.prototype.preorder = function() {
+	if (this._isEmpty()) return '';
 	var retStr = '';
-	function innerPreorder(curr) {
-		if (curr === null) return;
-		else {
-			retStr += curr.val;
-			innerPreorder(curr.left);
-			innerPreorder(curr.right);
-		}
+	function inner(curr) {
+		retStr += curr.val;
+		if (curr.left) inner(curr.left);
+		if (curr.right) inner(curr.right);
 	}
-	innerPreorder(this.root);
+	inner(this.root);
 	return retStr;
 };
 BST.prototype.inorder = function() {
+	if (this._isEmpty()) return '';
 	var retStr = '';
-	function innerInorder(curr) {
-		if (curr === null) return;
-		else {
-			innerInorder(curr.left);
-			retStr += curr.val;
-			innerInorder(curr.right);
-		}
+	function inner(curr) {
+		if (curr.left) inner(curr.left);
+		retStr += curr.val;
+		if (curr.right) inner(curr.right);
 	}
-	innerInorder(this.root);
+	inner(this.root);
 	return retStr;
 };
 BST.prototype.postorder = function() {
+	if (this._isEmpty()) return '';
 	var retStr = '';
-	function innerPostorder(curr) {
-		if (curr === null) return;
-		else {
-			innerPostorder(curr.left);
-			innerPostorder(curr.right);
-			retStr += curr.val;
-		}
+	function inner(curr) {
+		if (curr.left) inner(curr.left);
+		if (curr.right) inner(curr.right);
+		retStr += curr.val;
 	}
-	innerPostorder(this.root);
+	inner(this.root);
 	return retStr;
 };
 BST.prototype.levelorder = function() {
+	if (this._isEmpty()) return '';
 	var retStr = '';
 	var queue = [];
 	queue.push(this.root);
@@ -592,21 +587,24 @@ BST.prototype.levelorder = function() {
 	}
 	return retStr;
 };
-BST.prototype.min = function(curr) {
-	curr = curr || this.root;
+BST.prototype.min = function() {
+	if (this._isEmpty()) throw "an empty tree has no min";
+	var curr = this.root;
 	while (curr.left) {
 		curr = curr.left;
 	}
 	return curr;
 };
-BST.prototype.max = function(curr) {
-	curr = curr || this.root;
+BST.prototype.max = function() {
+	if (this._isEmpty()) throw "an empty tree has no max";
+	var curr = this.root;
 	while (curr.right) {
 		curr = curr.right;
 	}
 	return curr;
 };
 BST.prototype.find = function(val) {
+	if (this._isEmpty()) throw "an empty tree can't find";
 	var curr = this.root;
 	while (curr) {
 		if (val === curr.val) return curr;
@@ -616,35 +614,27 @@ BST.prototype.find = function(val) {
 	return -1;
 };
 BST.prototype.findParent = function(val) {
-	if (this.root.val === val) return false;
-	function innerFindParent(val, curr) {
-		if (!curr.left && !curr.right) return false;
- 		if (curr.left.val === val) return curr;
-		else if (curr.right.val === val) return curr;
-		else {
-			var retVal;
-			if (curr.left) {
-				retVal = innerFindParent(val, curr.left);
-				if (retVal) return retVal;
-			}
-			if (curr.right) {
-				retVal = innerFindParent(val, curr.right);
-				if (retVal) return retVal;
-			}
-			return false;
-		}
+	if (this._isEmpty()) return false;
+	var curr = this.root;
+	if (curr.val === val) return false;
+	while (curr.left || curr.right) {
+		if (curr.left.val === val || curr.right.val === val)
+			return curr;
+		else if (val < curr.val) curr = curr.left;
+		else if (val > curr.val) curr = curr.right;
 	}
-	return innerFindParent(val, this.root);
+	return false;
 };
 BST.prototype.remove = function(val) {
-	// handle case where el is the root node;
+	if (this._isEmpty()) throw "an empty tree can't remove";
 	var parent = this.findParent(val);
-	var parentDir, el;
+	if (!parent) throw "can't remove nonexistant element";
+	var el, parentDir;
 	if (parent.left.val === val) {
 		el = parent.left;
 		parentDir = 'left';
 	}
-	else if (parent.right.val === val) {
+	else {
 		el = parent.right;
 		parentDir = 'right';
 	}
@@ -653,21 +643,19 @@ BST.prototype.remove = function(val) {
 		parent[parentDir] = null;
 	}
 	else if (el.left && el.right) { // two children
-		// find smallest
-		var smallest, parentOfSmallest, parentOfSmallestDir;
-		parentOfSmallest = el;
-		parentOfSmallestDir = 'right';
-		var curr = el.right;
-		while (curr.left) {
-			parentOfSmallest = curr;
-			parentOfSmallestDir = 'left';
-			curr = curr.left;
+		// get smallest of right subtree
+		var min = el.right;
+		var minParent = el;
+		minParentDir = 'right';
+		while (min.left) {
+			minParent = min;
+			min = min.left;
+			minParentDir = 'left';
 		}
-		smallest = curr;
-		// replace el with smallest
-		el.val = smallest.val;
-		// remove smallest
-		parentOfSmallest[parentOfSmallestDir] = smallest.right;;
+		// replace el
+		el.val = min.val;
+		// remove min
+		minParent[minParentDir] = min.right;
 	}
 	else { // one child
 		var child;
