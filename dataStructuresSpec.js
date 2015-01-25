@@ -194,12 +194,20 @@ describe('A List', function() {
     expect(l.size()).toBe(1); // splice decrements
   });
   it('can indexOf', function() {
+    l.unshift('c');
+    l.unshift('b');
+    l.unshift('a');
+    l.push('d');
+    expect(l.indexOf('c')).toBe(2); // when head is < 0
+    l.clear();
+    l.push('x');
+    l.push('x');
     l.push('a');
     l.push('b');
-    var i = l.indexOf('b');
-    expect(i).toBe(1);
-    i = l.indexOf('c');
-    expect(i).toBe(-1);
+    l.push('c');
+    l.shift();
+    l.shift();
+    expect(l.indexOf('b')).toBe(1);
   });
   it('can insert', function() {
     l.insert('c', 0);
@@ -214,23 +222,6 @@ describe('A List', function() {
     expect(l.toString()).toBe('e, f, a, b, c, d'); // can insert in front half
     l.insert('g', 4);
     expect(l.toString()).toBe('e, f, a, b, g, c, d'); // can insert in back half
-  });
-  it('can removeEl', function() {
-    expect(function() {
-      l.removeEl('z')
-    }).toThrow("can't removeEl"); // empty list
-    l.push('a');
-    l.push('b');
-    l.push('c');
-    l.push('d');
-    l.removeEl('b'); 
-    expect(l.toString()).toBe('a, c, d'); // can remove from front half
-    l.push('e');
-    l.removeEl('d');
-    expect(l.toString()).toBe('a, c, e'); // can remove from back half
-    expect(function() {
-      l.removeEl('z')
-    }).toThrow("can't removeEl"); // element doesn't exist
   });
   it('can removeIndex', function() {
     expect(function() {
@@ -249,15 +240,33 @@ describe('A List', function() {
       l.removeIndex(10)
     }).toThrow("can't removeIndex"); // can't remove an element that doesn't exist
   });
+  it('can removeEl', function() {
+    expect(function() {
+      l.removeEl('z')
+    }).toThrow("can't removeEl"); // empty list
+    l.push('a');
+    l.push('b');
+    l.push('c');
+    l.push('d');
+    l.removeEl('b'); 
+    expect(l.toString()).toBe('a, c, d'); // can remove from front half
+    l.push('e');
+    l.removeEl('d');
+    expect(l.toString()).toBe('a, c, e'); // can remove from back half
+    expect(function() {
+      l.removeEl('z')
+    }).toThrow("can't removeEl"); // element doesn't exist
+  });
   it('can splice', function() {
     // removes and returns
     l.push('a');
     l.push('b');
     l.push('c');
     l.push('d');
-    var ret = l.splice(1,2);
-    expect(ret).toEqual(['b', 'c']);
-    expect(l.toString()).toBe('a, d');
+    l.push('e');
+    var ret = l.splice(2,2);
+    expect(ret).toEqual(['c', 'd']);
+    expect(l.toString()).toBe('a, b, e');
   });
   it('can toString', function() {
     expect(l.toString()).toBe('');
@@ -341,6 +350,14 @@ describe('A Linked List', function() {
     l.splice('b', 2);
     expect(l.size).toBe(2); // splice decrements
   });
+  it('can find', function() {
+    expect(l.find('z')).toBe(false);
+    l.push('a');
+    expect(l.find('a').val).toBe('a');
+    l.push('b');
+    expect(l.find('b').val).toBe('b');
+    expect(l.find('z')).toBe(false);
+  });
   it('can insert', function() {
     l.push('a');
     l.push('b');
@@ -361,8 +378,6 @@ describe('A Linked List', function() {
     l.push('b');
     l.removeEl('a');
     expect(l.toString()).toBe('b'); // front
-    // l.removeEl('b');
-    // expect(l.toString()).toBe(''); // single
   });
   it('can splice', function() {
     // removes and returns
@@ -456,6 +471,14 @@ describe('A Doubly Linked List', function() {
     l.splice('b', 2);
     expect(l.size).toBe(2); // splice decrements
   });
+  it('can find', function() {
+    expect(l.find('z')).toBe(false);
+    l.push('a');
+    expect(l.find('a').val).toBe('a');
+    l.push('b');
+    expect(l.find('b').val).toBe('b');
+    expect(l.find('z')).toBe(false);
+  });
   it('can insert', function() {
     l.push('a');
     l.push('b');
@@ -501,6 +524,18 @@ describe('A Doubly Linked List', function() {
 describe('A Binary Search Tree', function() {
   var bst;
   beforeEach(function() {
+    jasmine.addMatchers({
+      toBeABSTNode: function () {
+        return {
+          compare: function(actual, expected) {
+            var result = {};
+            result.pass = actual.val !== undefined && actual.left !== undefined && actual.right !== undefined;
+            result.message = "Expected " + actual + " to be a BSTNode";
+            return result;
+          }
+        };
+      }
+    });
     bst = new BST();
     bst.insert(4);
     bst.insert(2);
@@ -526,17 +561,23 @@ describe('A Binary Search Tree', function() {
     expect(bst.levelorder()).toBe('4261357');
   });
   it('can get the minimum', function() {
+    expect(bst.min()).toBeABSTNode();
     expect(bst.min().val).toBe(1);
   });
   it('can get the maximum', function() {
+    expect(bst.max()).toBeABSTNode();
     expect(bst.max().val).toBe(7);
   });
   it('can find', function() {
-    expect(bst.find(5)).toBe(true);
-    expect(bst.find(10)).toBe(false);
+    expect(bst.find(5)).toBeABSTNode();
+    expect(bst.find(5).val).toBe(5);
+    expect(bst.find(10)).toBe(-1);
   });
   it('can findParent', function() {
+    expect(bst.findParent(5)).toBeABSTNode();
     expect(bst.findParent(5).val).toBe(6);
+    expect(bst.findParent(8)).toBe(false); // nonexistant node
+    expect(bst.findParent(4)).toBe(false); // root
   });
   it('can remove a leaf node', function() {
     bst.remove(7);
@@ -569,7 +610,7 @@ describe('A Hash Table', function() {
   it('can get and set', function() {
     expect(h.get('adam')).toBe('me');
     expect(h.get('jake')).toBe('brother');
-    expect(h.get('lori')).toBe(-1);
+    expect(h.get('lori')).toBe(undefined);
   });
   it('can handle collisions', function() {
     h.set('alfred', 'grandpa');
@@ -583,6 +624,15 @@ describe('A Hash Table', function() {
   // linear probing
 });
 
+// describe("A Binary Heap", function() {
+//   var heap;
+//   var input = [16,14,10,8,7,9,3,2,4,1];
+//   beforeEach(function() {
+//     heap = new Heap(input);
+//   });
+//   it('can get parent', function() {
+//     expect(heap.parent(5)).toBe(14);
+//   });
+// });
 
-// heap
 // graph
