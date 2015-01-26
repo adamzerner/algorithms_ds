@@ -314,5 +314,23 @@ function findMaxSubarray(arr, low, high, isDiff) {
 
 function findMaxSubarrayLinear(arr) {
 	var maxSubsForEachIndex = [];
-	
 }
+
+// UNION-FIND
+function UF(n) {
+	this.arr = new Array(n);
+	for (var i = 0; i < n; i++) {
+		this.arr[i] = i;
+	}
+}
+UF.prototype.union = function(i, j) {
+	var arr = this.arr;
+	var iVal = arr[i];
+	var jVal = arr[j];
+	for (var i = 0, len = arr.length; i < len; i++) {
+		if (arr[i] === iVal) arr[i] = jVal;
+	}
+};
+UF.prototype.connected = function(i, j) {
+	return this.arr[i] === this.arr[j];
+};

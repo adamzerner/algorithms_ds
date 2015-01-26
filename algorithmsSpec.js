@@ -154,3 +154,43 @@ describe("Other: ", function() {
 	// watched some videos for 4.3; only have a basic understanding
 	// come back to chapter 5 after I learn more math
 });
+describe("Union-Find: ", function() {
+	// instantiate
+	var uf;
+	beforeEach(function() {
+		uf = new UF(10);
+		uf.union(0,5);
+		uf.union(5,6);
+		uf.union(1,2);
+		uf.union(2,7);
+		uf.union(8,3);
+		uf.union(3,4);
+		uf.union(4,9);
+	});
+	it('instantiates', function() {
+		uf = new UF(10);
+		expect(uf.arr.length).toBe(10);
+		for (var i = 0; i < 10; i++) {
+			expect(uf.arr[i]).toBe(i);
+		}
+	});
+	it('union', function() {
+		expect(uf.arr[0]).toBe(6);
+		expect(uf.arr[1]).toBe(7);
+		expect(uf.arr[2]).toBe(7);
+		expect(uf.arr[3]).toBe(9);
+		expect(uf.arr[4]).toBe(9);
+		expect(uf.arr[5]).toBe(6);
+		expect(uf.arr[6]).toBe(6);
+		expect(uf.arr[7]).toBe(7);
+		expect(uf.arr[8]).toBe(9);
+		expect(uf.arr[9]).toBe(9);
+	});
+	it('connected', function() {
+		expect(uf.connected(0,5)).toBe(true);
+		expect(uf.connected(0,6)).toBe(true);
+		expect(uf.connected(0,1)).toBe(false);
+		expect(uf.connected(9,8)).toBe(true);
+		expect(uf.connected(3,7)).toBe(false);
+	});
+});
