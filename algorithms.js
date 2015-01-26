@@ -1,24 +1,25 @@
 // RECURSION
 function factorial(n) {
 	if (n < 2) return 1;
-	else return n * factorial(n-1);
+	return n * factorial(n-1);
 }
 
 function fibonacci(n) {
 	if (n < 2) return n;
-	else return fibonacci(n-1) + fibonacci(n-2);
+	return fibonacci(n-1) + fibonacci(n-2);
 }
 
 // SORTING
 function insertionSort(arr) {
+	var temp, j;
 	for (var i = 1, len = arr.length; i < len; i++) {
-		var curr = arr[i];
-		var j = i-1;
-		while (j >= 0 && arr[j] > curr) {
+		temp = arr[i];
+		j = i-1;
+		while (j >= 0 && arr[j] > temp) {
 			arr[j+1] = arr[j];
 			j--;
 		}
-		arr[j+1] = curr;
+		arr[j+1] = temp;
 	}
 	return arr;
 }
@@ -44,9 +45,8 @@ function swap(arr, i, j) {
 }
 
 function selectionSort(arr) {
-	var len = arr.length;
-	var min, minIndex, swapMade;
-	for (var i = 0; i <= len-2; i++) {
+	var min, minIndex;
+	for (var i = 0, len = arr.length; i < len-1; i++) {
 		min = arr[i];
 		minIndex = i;
 		for (var j = i+1; j < len; j++) {
@@ -60,40 +60,40 @@ function selectionSort(arr) {
 	return arr;
 }
 
-function mergeSort(arr) {
-	if (arr.length === 1) return arr;
-	var mid = Math.floor(arr.length/2);
-	var left = arr.slice(0, mid);
-	var right = arr.slice(mid);
-	left = mergeSort(left);
-	right = mergeSort(right);
-	return merge(left, right);
-}
-
 function merge(a, b) {
 	var retArr = [];
+	var i = j = 0;
 	var aLen = a.length;
 	var bLen = b.length;
-	var i = j = 0;
 	while (i < aLen || j < bLen) {
-		if (j === bLen) {
-			retArr.push(a[i]);
-			i++;
-		}
-		else if (i === aLen) {
+		if (i === aLen) {
 			retArr.push(b[j]);
 			j++;
+		}
+		else if (j === bLen) {
+			retArr.push(a[i]);
+			i++;
 		}
 		else if (a[i] < b[j]) {
 			retArr.push(a[i]);
 			i++;
 		}
-		else if (b[j] <= a[i]) {
+		else {
 			retArr.push(b[j]);
 			j++;
 		}
 	}
 	return retArr;
+}
+
+function mergeSort(arr) {
+	if (arr.length === 1) return arr;
+	var mid = Math.floor(arr.length/2);
+	var left = arr.slice(0,mid);
+	var right = arr.slice(mid);
+	left = mergeSort(left);
+	right = mergeSort(right);
+	return merge(left, right);
 }
 
 function bubbleSort(arr) {
@@ -113,33 +113,25 @@ function bubbleSort(arr) {
 
 function cocktailSort(arr) {
 	var start = 0;
-	var end = arr.length-1;
-	var swapMade, i, j;
-	while (start < end) {
-		swapMade = false;
-		for (i = start; i < end; i++) {
+	var end = arr.length-2;
+	var i;
+	while (start <= end) {
+		for (i = start; i <= end; i++) {
 			if (arr[i] > arr[i+1]) {
 				swap(arr, i, i+1);
-				swapMade = true;
 			}
 		}
-		if (!swapMade) break;
+		start++
+		for (i = end; i >= start; i--) {
+			if (arr[i] < arr[i-1]) {
+				swap(arr, i, i-1);
+			}
+		}
 		end--;
-
-		swapMade = false;
-		for (j = end; j > start; j--) {
-			if (arr[j] < arr[j-1]) {
-				swap(arr, j, j-1);
-				swapMade = true;
-			}
-		}
-		if (!swapMade) break;
-		start++;
 	}
 	return arr;
 }
 
-// SEARCHING
 function binarySearch(arr, val, start, end) {
 	if (start > end) return -1;
 	start = start || 0;
@@ -154,7 +146,7 @@ function binarySearchIterative(arr, val) {
 	var start = 0;
 	var end = arr.length-1;
 	var mid;
-	while (start < end) {
+	while (start <= end) {
 		mid = Math.floor((start+end)/2);
 		if (val === arr[mid]) return mid;
 		else if (val < arr[mid]) end = mid-1;
