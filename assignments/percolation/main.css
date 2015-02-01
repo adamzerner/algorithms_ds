@@ -1,0 +1,13 @@
+td {
+	padding: 5px;
+	border: 1px solid gray;
+}
+body {
+	margin-bottom: 50px;
+}
+
+#results {
+	-webkit-column-count: 3; /* Chrome, Safari, Opera */
+  -moz-column-count: 3; /* Firefox */
+  column-count: 3;
+}
