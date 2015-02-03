@@ -15,7 +15,15 @@ describe('A Stack', function() {
     expect(s.toString()).toEqual('a, b');
   });
   it("resizes", function() {
-    
+    expect(s.data.length).toBe(5);
+    s.push('a');
+    s.push('b');
+    s.push('c');
+    s.push('d');
+    s.push('e');
+    s.push('f');
+    expect(s.data.length).toBe(10);
+    expect(s.data[5]).toBe('f');
   });
   it("can pop", function() {
     expect(function() {

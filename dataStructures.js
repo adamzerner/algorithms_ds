@@ -1,5 +1,5 @@
 function Stack() {
-	this.data = new Array(10);
+	this.data = new Array(5);
 	this.top = -1;
 }
 Stack.prototype._isEmpty = function() {
@@ -7,6 +7,13 @@ Stack.prototype._isEmpty = function() {
 };
 Stack.prototype.push = function(el) {
 	this.top++;
+	if (this.top === this.data.length) {
+		var temp = new Array(2*this.data.length);
+		for (var i = 0; i < this.top; i++) {
+			temp[i] = this.data[i];
+		}
+		this.data = temp;
+	}
 	this.data[this.top] = el;
 };
 Stack.prototype.pop = function() {
