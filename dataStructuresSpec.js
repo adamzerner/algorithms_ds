@@ -14,6 +14,9 @@ describe('A Stack', function() {
     s.push('b');
     expect(s.toString()).toEqual('a, b');
   });
+  it("resizes", function() {
+    
+  });
   it("can pop", function() {
     expect(function() {
       s.pop()

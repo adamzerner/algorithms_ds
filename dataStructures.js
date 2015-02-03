@@ -1,53 +1,34 @@
 function Stack() {
-	this.data = {};
-	this.head = null;
-	this.tail = null;
+	this.data = new Array(10);
+	this.top = -1;
 }
 Stack.prototype._isEmpty = function() {
-	return this.head === null;
+	return this.top === -1;
 };
 Stack.prototype.push = function(el) {
-	if (this._isEmpty()) {
-		this.head = 0;
-		this.tail = 0;
-		this.data[0] = el;
-	}
-	else {
-		this.tail++;
-		this.data[this.tail] = el;
-	}
+	this.top++;
+	this.data[this.top] = el;
 };
 Stack.prototype.pop = function() {
 	if (this._isEmpty()) throw "an empty stack can't pop";
-	else if (this.size() === 1) {
-		var toRet = this.data[this.tail];
-		this.head = null;
-		this.tail = null;
-		this.data = {};
-		return toRet;
-	}
-	else {
-		var toRet = this.data[this.tail];
-		this.tail--;
-		return toRet;
-	}
+	var oldTop = this.data[this.top];
+	this.top--;
+	return oldTop;
 };
 Stack.prototype.size = function() {
-	if (this._isEmpty()) return 0;
-	return this.tail - this.head + 1;
+	return this.top + 1;
 };
 Stack.prototype.peek = function() {
-	return this.data[this.tail];
+	return this.data[this.top];
 };
 Stack.prototype.clear = function() {
-	this.head = null;
-	this.tail = null;
 	this.data = {};
+	this.top = -1;
 };
 Stack.prototype.toString = function() {
 	if (this._isEmpty()) return '';
 	var retStr = '';
-	for (var i = this.head; i <= this.tail-1; i++) {
+	for (var i = 0; i < this.top; i++) {
 		retStr += this.data[i] + ', ';
 	}
 	retStr += this.data[i];
