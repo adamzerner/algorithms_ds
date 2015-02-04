@@ -88,7 +88,7 @@ describe('A Queue', function() {
   it('can enqueue in order', function() {
     q.enqueue('a');
     q.enqueue('b');
-    expect(q.toString()).toEqual('b, a');
+    expect(q.toString()).toEqual('a, b');
   });
   it('can dequeue', function() {
     expect(function() {
@@ -104,8 +104,8 @@ describe('A Queue', function() {
     q.enqueue('b');
     var firstDequeue = q.dequeue();
     var secondDequeue = q.dequeue();
-    expect(firstDequeue).toBe('b');
-    expect(secondDequeue).toBe('a');
+    expect(firstDequeue).toBe('a');
+    expect(secondDequeue).toBe('b');
   });
   it('can size', function() {
     expect(q.size()).toBe(0);
@@ -117,7 +117,7 @@ describe('A Queue', function() {
   it('can peek', function() {
     q.enqueue('a');
     q.enqueue('b');
-    expect(q.peek()).toBe('b');
+    expect(q.peek()).toBe('a');
   });
   it('can clear', function() {
     q.enqueue('a');
@@ -131,7 +131,7 @@ describe('A Queue', function() {
     q.enqueue('b');
     q.enqueue('c');
     var ret = q.toString();
-    expect(ret).toBe('c, b, a');
+    expect(ret).toBe('a, b, c');
   });
 });
 
