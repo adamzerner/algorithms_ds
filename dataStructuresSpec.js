@@ -15,6 +15,8 @@ describe('A Stack', function() {
     expect(s.toString()).toEqual('a, b');
   });
   it("resizes", function() {
+    // should double if there's not enough room
+    // should cut in half if 25% full after pop
     expect(s.data.length).toBe(5);
     s.push('a');
     s.push('b');
@@ -24,6 +26,10 @@ describe('A Stack', function() {
     s.push('f');
     expect(s.data.length).toBe(10);
     expect(s.data[5]).toBe('f');
+    s.pop();
+    s.pop();
+    s.pop();
+    expect(s.data.length).toBe(5);
   });
   it("can pop", function() {
     expect(function() {
