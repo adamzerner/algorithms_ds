@@ -10,6 +10,28 @@ function fibonacci(n) {
 }
 
 // SORTING
+function swap(arr, i, j) {
+	var temp = arr[i];
+	arr[i] = arr[j];
+	arr[j] = temp;
+}
+
+function selectionSort(arr) {
+	var min, minIndex;
+	for (var i = 0, len = arr.length; i < len-1; i++) {
+		min = arr[i];
+		minIndex = i;
+		for (var j = i+1; j < len; j++) {
+			if (arr[j] < min) {
+				min = arr[j];
+				minIndex = j;
+			}
+		}
+		swap(arr, i, minIndex);
+	}
+	return arr;
+}
+
 function insertionSort(arr) {
 	var temp, j;
 	for (var i = 1, len = arr.length; i < len; i++) {
@@ -38,24 +60,20 @@ function insertionSortRecursive(arr) {
 	return left;
 }
 
-function swap(arr, i, j) {
-	var temp = arr[i];
-	arr[i] = arr[j];
-	arr[j] = temp;
-}
+function shellSort(arr) {
+	var len = arr.length;
+	var h = 1;
 
-function selectionSort(arr) {
-	var min, minIndex;
-	for (var i = 0, len = arr.length; i < len-1; i++) {
-		min = arr[i];
-		minIndex = i;
-		for (var j = i+1; j < len; j++) {
-			if (arr[j] < min) {
-				min = arr[j];
-				minIndex = j;
+	// set h based on 3x+1 sequence
+	while (h < len/3) h = 3*h + 1; // 1, 4, 13, 40, 121...
+
+	while (h >= 1) {
+		for (var i = h; i < len; i++) {
+			for (var j = i; j >= h; j-= h) {
+				if (arr[j] < arr[j-h]) swap(arr, j, j-h);
 			}
 		}
-		swap(arr, i, minIndex);
+		h = Math.floor(h/3);
 	}
 	return arr;
 }
