@@ -159,6 +159,9 @@ describe("Other: ", function() {
 	// skipped matrix multiplication stuff in 4.2
 	// watched some videos for 4.3; only have a basic understanding
 	// come back to chapter 5 after I learn more math
+	it('shuffles', function() {
+		expect(true).toBe(true);
+	});
 });
 describe("Union-Find: ", function() {
 	var uf;

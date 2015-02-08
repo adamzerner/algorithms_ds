@@ -334,6 +334,21 @@ function findMaxSubarrayLinear(arr) {
 	var maxSubsForEachIndex = [];
 }
 
+function shuffle(a) {
+    var n = a.length,
+        r,
+        temp;
+    while (n > 1) {
+        r = Math.floor(n * Math.random());
+        n -= 1;
+        temp = a[n];
+        a[n] = a[r];
+        a[r] = temp;
+    }
+    return a;
+}
+
+
 // UNION-FIND
 function UF(n) {
 	this.arr = new Array(n); // could do [] in javascript
