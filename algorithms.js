@@ -78,6 +78,42 @@ function shellSort(arr) {
 	return arr;
 }
 
+function bubbleSort(arr) {
+	var swapMade;
+	for (var end = arr.length-2; end >= 0; end--) {
+		swapMade = false;
+		for (var i = 0; i <= end; i++) {
+			if (arr[i] > arr[i+1]) {
+				swap(arr, i, i+1);
+				swapMade = true;
+			}
+		}
+		if (!swapMade) break;
+	}
+	return arr;
+}
+
+function cocktailSort(arr) {
+	var start = 0;
+	var end = arr.length-2;
+	var i;
+	while (start <= end) {
+		for (i = start; i <= end; i++) {
+			if (arr[i] > arr[i+1]) {
+				swap(arr, i, i+1);
+			}
+		}
+		start++
+		for (i = end; i >= start; i--) {
+			if (arr[i] < arr[i-1]) {
+				swap(arr, i, i-1);
+			}
+		}
+		end--;
+	}
+	return arr;
+}
+
 function merge(a, b) {
 	var retArr = [];
 	var i = j = 0;
@@ -114,41 +150,20 @@ function mergeSort(arr) {
 	return merge(left, right);
 }
 
-function bubbleSort(arr) {
-	var swapMade;
-	for (var end = arr.length-2; end >= 0; end--) {
-		swapMade = false;
-		for (var i = 0; i <= end; i++) {
-			if (arr[i] > arr[i+1]) {
-				swap(arr, i, i+1);
-				swapMade = true;
-			}
+function bottomUpMergeSort(arr) {
+	var len = arr.length;
+	var left, right, result;
+	for (var sz = 1; sz < len; sz += sz) {
+		for (var lo = 0; lo < len-sz; lo += 2*sz) {
+			left = arr.slice(lo, lo+sz);
+			right = arr.slice(lo+sz, lo+sz+sz);
+			result = merge(left, right);
+			Array.prototype.splice.apply(arr, [lo, result.length].concat(result));
 		}
-		if (!swapMade) break;
 	}
 	return arr;
 }
 
-function cocktailSort(arr) {
-	var start = 0;
-	var end = arr.length-2;
-	var i;
-	while (start <= end) {
-		for (i = start; i <= end; i++) {
-			if (arr[i] > arr[i+1]) {
-				swap(arr, i, i+1);
-			}
-		}
-		start++
-		for (i = end; i >= start; i--) {
-			if (arr[i] < arr[i-1]) {
-				swap(arr, i, i-1);
-			}
-		}
-		end--;
-	}
-	return arr;
-}
 
 function binarySearch(arr, val, start, end) {
 	if (start > end) return -1;
