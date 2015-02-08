@@ -47,6 +47,18 @@ describe("Sorting algorithms:", function() {
 		expect(shellSort(multiple)).toEqual([1,2,3,4,5,6]);
 		expect(shellSort(large)).toEqual(largeResult);
 	});
+	it("bubble sort", function() {
+		expect(bubbleSort(one)).toEqual([5]);
+		expect(bubbleSort(two)).toEqual([2, 5]);
+		expect(bubbleSort(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(bubbleSort(large)).toEqual(largeResult);
+	});
+	it("cocktail sort", function() {
+		expect(cocktailSort(one)).toEqual([5]);
+		expect(cocktailSort(two)).toEqual([2, 5]);
+		expect(cocktailSort(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(cocktailSort(large)).toEqual(largeResult);
+	});
 	it("merge", function() {
 		expect(merge([1], [1])).toEqual([1,1]);
 		expect(merge([1], [2])).toEqual([1,2]);
@@ -61,17 +73,12 @@ describe("Sorting algorithms:", function() {
 		expect(mergeSort(multiple)).toEqual([1,2,3,4,5,6]);
 		expect(mergeSort(large)).toEqual(largeResult);
 	});
-	it("bubble sort", function() {
-		expect(bubbleSort(one)).toEqual([5]);
-		expect(bubbleSort(two)).toEqual([2, 5]);
-		expect(bubbleSort(multiple)).toEqual([1,2,3,4,5,6]);
-		expect(bubbleSort(large)).toEqual(largeResult);
-	});
-	it("cocktail sort", function() {
-		expect(cocktailSort(one)).toEqual([5]);
-		expect(cocktailSort(two)).toEqual([2, 5]);
-		expect(cocktailSort(multiple)).toEqual([1,2,3,4,5,6]);
-		expect(cocktailSort(large)).toEqual(largeResult);
+	it("bottom up merge sort", function() {
+		// iterative, not recursive
+		expect(bottomUpMergeSort(one)).toEqual([5]);
+		expect(bottomUpMergeSort(two)).toEqual([2, 5]);
+		expect(bottomUpMergeSort(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(bottomUpMergeSort(large)).toEqual(largeResult);
 	});
 });
 describe("Searching algorithms:", function() {
