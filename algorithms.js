@@ -164,7 +164,28 @@ function bottomUpMergeSort(arr) {
 	return arr;
 }
 
+function quickSort(arr, start, end) {
+	if (start < end) {
+		var pIndex = partition(arr, start, end); // get pIndex
+		quickSort(arr, start, pIndex-1);				 // sort left half
+		quickSort(arr, pIndex+1, end);					 // sort right half
+	}
+}
 
+function partition(arr, start, end) {
+	var pivot = arr[end];
+	var pIndex = start;
+	for (var i = start; i < end; i++) {
+		if (arr[i] <= pivot) {
+			swap(arr, i, pIndex);
+			pIndex++;
+		}
+	}
+	swap(arr, end, pIndex);
+	return pIndex;
+}
+
+// SEARCHING ALGORITHMS
 function binarySearch(arr, val, start, end) {
 	if (start > end) return -1;
 	start = start || 0;
