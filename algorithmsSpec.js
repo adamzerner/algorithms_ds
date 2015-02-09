@@ -87,7 +87,6 @@ describe("Sorting algorithms:", function() {
 		expect(two).toEqual([2, 5]);
 		quickSort(multiple, 0, multiple.length-1);
 		expect(multiple).toEqual([1,2,3,4,5,6]);
-		debugger;
 		quickSort(large, 0, large.length-1);
 		expect(large).toEqual(largeResult);
 	});
