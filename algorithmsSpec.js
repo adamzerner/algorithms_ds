@@ -102,6 +102,15 @@ describe("Searching algorithms:", function() {
 	});
 });
 describe("Other: ", function() {
+	it('Quick Select', function() {
+		// returns the index of the kth smallest element
+		expect(quickSelect([5,2,4,6,1,3]), 1).toBe(4);
+		expect(quickSelect([5,2,4,6,1,3]), 2).toBe(1);
+		expect(quickSelect([5,2,4,6,1,3]), 3).toBe(5);
+		expect(quickSelect([5,2,4,6,1,3]), 4).toBe(2);
+		expect(quickSelect([5,2,4,6,1,3]), 5).toBe(0);
+		expect(quickSelect([5,2,4,6,1,3]), 6).toBe(3);
+	});
 	describe("Bitwise: ", function() {
 		it("twoToTen", function() {
 			expect(twoToTen(1)).toBe(1);
@@ -176,9 +185,6 @@ describe("Other: ", function() {
 	// skipped matrix multiplication stuff in 4.2
 	// watched some videos for 4.3; only have a basic understanding
 	// come back to chapter 5 after I learn more math
-	it('shuffles', function() {
-		expect(true).toBe(true);
-	});
 });
 describe("Union-Find: ", function() {
 	var uf;

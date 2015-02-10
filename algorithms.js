@@ -166,7 +166,7 @@ function bottomUpMergeSort(arr) {
 
 function quickSort(arr, start, end) {
 	if (start < end) {
-		var pIndex = partition(arr, start, end); // get pIndex
+		var pIndex = randomizedPartition(arr, start, end); // get pIndex
 		quickSort(arr, start, pIndex-1);				 // sort left half
 		quickSort(arr, pIndex+1, end);					 // sort right half
 	}
@@ -183,6 +183,16 @@ function partition(arr, start, end) {
 	}
 	swap(arr, end, pIndex);
 	return pIndex;
+}
+
+function test(arr, start, end) {
+	partition(arr, start, end);
+}
+
+function randomizedPartition(arr, start, end) {
+	var r = Math.floor(Math.random() * (end - start + 1)) + start;
+	swap(arr, r, end);
+	return partition(arr, start, end);
 }
 
 // SEARCHING ALGORITHMS
