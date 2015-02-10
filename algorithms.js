@@ -221,14 +221,17 @@ function binarySearchIterative(arr, val) {
 
 // OTHER
 function quickSelect(A, k) {
+	k--; // kth smallest element has index of k-1
 	A = shuffle(A);
-	var lo = 0, hi = a.length-1;
+	var lo = 0, hi = A.length-1, pIndex;
 	while (hi > lo) {
-		var partition = partition(a, lo, hi);
-		if (partition < k) lo = partition+1;
-		else if (partition > k) hi = partition-1;
-		else return a[k];
+		console.log(partition);
+		pIndex = partition(A, lo, hi);
+		if (pIndex < k) lo = pIndex+1;
+		else if (pIndex > k) hi = pIndex-1;
+		else return A[k];
 	}
+	return A[k];
 }
 
 function tenToTwo(num) {
