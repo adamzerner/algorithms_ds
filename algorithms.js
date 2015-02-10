@@ -220,6 +220,17 @@ function binarySearchIterative(arr, val) {
 }
 
 // OTHER
+function quickSelect(A, k) {
+	A = shuffle(A);
+	var lo = 0, hi = a.length-1;
+	while (hi > lo) {
+		var partition = partition(a, lo, hi);
+		if (partition < k) lo = partition+1;
+		else if (partition > k) hi = partition-1;
+		else return a[k];
+	}
+}
+
 function tenToTwo(num) {
 	var retArr = [];	
 	while (num) {

@@ -103,13 +103,13 @@ describe("Searching algorithms:", function() {
 });
 describe("Other: ", function() {
 	it('Quick Select', function() {
-		// returns the index of the kth smallest element
-		expect(quickSelect([5,2,4,6,1,3]), 1).toBe(4);
-		expect(quickSelect([5,2,4,6,1,3]), 2).toBe(1);
-		expect(quickSelect([5,2,4,6,1,3]), 3).toBe(5);
-		expect(quickSelect([5,2,4,6,1,3]), 4).toBe(2);
-		expect(quickSelect([5,2,4,6,1,3]), 5).toBe(0);
-		expect(quickSelect([5,2,4,6,1,3]), 6).toBe(3);
+		// returns the kth smallest element
+		expect(quickSelect([5,2,4,6,1,3]), 1).toBe(1);
+		expect(quickSelect([5,2,4,6,1,3]), 2).toBe(2);
+		expect(quickSelect([5,2,4,6,1,3]), 3).toBe(3);
+		expect(quickSelect([5,2,4,6,1,3]), 4).toBe(4);
+		expect(quickSelect([5,2,4,6,1,3]), 5).toBe(5);
+		expect(quickSelect([5,2,4,6,1,3]), 6).toBe(6);
 	});
 	describe("Bitwise: ", function() {
 		it("twoToTen", function() {
