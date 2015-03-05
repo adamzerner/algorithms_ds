@@ -17,13 +17,16 @@ function rpnCalculator(expression) {
 	}
 	return values.pop();
 }
+
 function isOperand(arg) {
 	var operands = ['+', '-', '*', '/'];
 	return operands.indexOf(arg) !== -1;
 }
+
 function isNumber(arg) {
 	return !isNaN(+arg);
 }
+
 function getResult(a, b, op) {
 	a = Number(a);
 	b = Number(b);

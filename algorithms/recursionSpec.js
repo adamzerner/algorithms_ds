@@ -11,6 +11,6 @@ describe("Recursion: ", function() {
 		expect(fibonacci(1)).toBe(1);
 		expect(fibonacci(2)).toBe(1);
 		expect(fibonacci(8)).toBe(21);
-		expect(fibonacci(11)).toBe(89);		
+		expect(fibonacci(11)).toBe(89);
 	});
 });

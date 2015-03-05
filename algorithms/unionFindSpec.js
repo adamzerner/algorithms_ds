@@ -3,13 +3,13 @@ describe("Union-Find: ", function() {
 	describe('Quick Find', function() {
 		beforeEach(function() {
 			uf = new UF(10);
-			uf.union(0,5);
-			uf.union(5,6);
-			uf.union(1,2);
-			uf.union(2,7);
-			uf.union(8,3);
-			uf.union(3,4);
-			uf.union(4,9);
+			uf.union(0, 5);
+			uf.union(5, 6);
+			uf.union(1, 2);
+			uf.union(2, 7);
+			uf.union(8, 3);
+			uf.union(3, 4);
+			uf.union(4, 9);
 		});
 		it('instantiates', function() {
 			uf = new UF(10);
@@ -31,21 +31,21 @@ describe("Union-Find: ", function() {
 			expect(uf.arr[9]).toBe(9);
 		});
 		it('connected', function() {
-			expect(uf.connected(0,5)).toBe(true);
-			expect(uf.connected(0,6)).toBe(true);
-			expect(uf.connected(0,1)).toBe(false);
-			expect(uf.connected(9,8)).toBe(true);
-			expect(uf.connected(3,7)).toBe(false);
+			expect(uf.connected(0, 5)).toBe(true);
+			expect(uf.connected(0, 6)).toBe(true);
+			expect(uf.connected(0, 1)).toBe(false);
+			expect(uf.connected(9, 8)).toBe(true);
+			expect(uf.connected(3, 7)).toBe(false);
 		});
 	});
 	describe('Quick Union', function() {
 		beforeEach(function() {
 			uf = new UF2(10);
-			uf.union(4,3);
-			uf.union(3,8);
-			uf.union(6,5);
-			uf.union(9,4);
-			uf.union(2,1);
+			uf.union(4, 3);
+			uf.union(3, 8);
+			uf.union(6, 5);
+			uf.union(9, 4);
+			uf.union(2, 1);
 			/*
 					0     1     5     7     8
 					      |     |           |\
@@ -74,13 +74,13 @@ describe("Union-Find: ", function() {
 			expect(uf.arr[9]).toBe(8);
 		});
 		it('connected', function() {
-			expect(uf.connected(8,9)).toBe(true);
-			expect(uf.connected(5,4)).toBe(false);
-			expect(uf.connected(3,8)).toBe(true);
-			expect(uf.connected(3,4)).toBe(true);
-			expect(uf.connected(3,9)).toBe(true);
-			expect(uf.connected(2,6)).toBe(false);
-			expect(uf.connected(0,7)).toBe(false);
+			expect(uf.connected(8, 9)).toBe(true);
+			expect(uf.connected(5, 4)).toBe(false);
+			expect(uf.connected(3, 8)).toBe(true);
+			expect(uf.connected(3, 4)).toBe(true);
+			expect(uf.connected(3, 9)).toBe(true);
+			expect(uf.connected(2, 6)).toBe(false);
+			expect(uf.connected(0, 7)).toBe(false);
 		});
 	});
 	describe('Improved Quick Union', function() {
@@ -88,12 +88,12 @@ describe("Union-Find: ", function() {
 		// path compression when calculating the root
 		beforeEach(function() {
 			uf = new UF3(10);
-			uf.union(4,3);
-			uf.union(3,8);
-			uf.union(6,5);
-			uf.union(9,4);
-			uf.union(2,1);
-			uf.union(5,0);
+			uf.union(4, 3);
+			uf.union(3, 8);
+			uf.union(6, 5);
+			uf.union(9, 4);
+			uf.union(2, 1);
+			uf.union(5, 0);
 			/*
 					2     4       6     7
 					|    /|\     / \
@@ -128,12 +128,12 @@ describe("Union-Find: ", function() {
 			expect(uf.arr[9]).toBe(4);
 		});
 		it('connected', function() {
-			expect(uf.connected(1,2)).toBe(true);
-			expect(uf.connected(3,9)).toBe(true);
-			expect(uf.connected(4,8)).toBe(true);
-			expect(uf.connected(6,0)).toBe(true);
-			expect(uf.connected(7,1)).toBe(false);
-			expect(uf.connected(7,2)).toBe(false);
+			expect(uf.connected(1, 2)).toBe(true);
+			expect(uf.connected(3, 9)).toBe(true);
+			expect(uf.connected(4, 8)).toBe(true);
+			expect(uf.connected(6, 0)).toBe(true);
+			expect(uf.connected(7, 1)).toBe(false);
+			expect(uf.connected(7, 2)).toBe(false);
 		});
 		describe('path compression', function() {
 			beforeEach(function() {
@@ -177,7 +177,7 @@ describe("Union-Find: ", function() {
 				expect(uf.arr[9]).toBe(0);
 				expect(uf.arr[6]).toBe(0);
 				expect(uf.arr[3]).toBe(0);
-				expect(uf.arr[1]).toBe(0);				
+				expect(uf.arr[1]).toBe(0);
 			});
 		});
 	});

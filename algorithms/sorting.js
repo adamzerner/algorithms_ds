@@ -7,10 +7,10 @@ function swap(arr, i, j) {
 
 function selectionSort(arr) {
 	var min, minIndex;
-	for (var i = 0, len = arr.length; i < len-1; i++) {
+	for (var i = 0, len = arr.length; i < len - 1; i++) {
 		min = arr[i];
 		minIndex = i;
-		for (var j = i+1; j < len; j++) {
+		for (var j = i + 1; j < len; j++) {
 			if (arr[j] < min) {
 				min = arr[j];
 				minIndex = j;
@@ -25,27 +25,27 @@ function insertionSort(arr) {
 	var temp, j;
 	for (var i = 1, len = arr.length; i < len; i++) {
 		temp = arr[i];
-		j = i-1;
+		j = i - 1;
 		while (j >= 0 && arr[j] > temp) {
-			arr[j+1] = arr[j];
+			arr[j + 1] = arr[j];
 			j--;
 		}
-		arr[j+1] = temp;
+		arr[j + 1] = temp;
 	}
 	return arr;
 }
 
 function insertionSortRecursive(arr) {
 	if (arr.length === 1) return arr;
-	var last = arr[arr.length-1];
-	var left = arr.slice(0, arr.length-1);
+	var last = arr[arr.length - 1];
+	var left = arr.slice(0, arr.length - 1);
 	left = insertionSortRecursive(left);
-	var i = left.length-1;
+	var i = left.length - 1;
 	while (i >= 0 && left[i] > last) {
-		left[i+1] = left[i];
+		left[i + 1] = left[i];
 		i--;
 	}
-	left[i+1] = last;
+	left[i + 1] = last;
 	return left;
 }
 
@@ -54,26 +54,26 @@ function shellSort(arr) {
 	var h = 1;
 
 	// set h based on 3x+1 sequence
-	while (h < len/3) h = 3*h + 1; // 1, 4, 13, 40, 121...
+	while (h < len / 3) h = 3 * h + 1; // 1, 4, 13, 40, 121...
 
 	while (h >= 1) {
 		for (var i = h; i < len; i++) {
-			for (var j = i; j >= h; j-= h) {
-				if (arr[j] < arr[j-h]) swap(arr, j, j-h);
+			for (var j = i; j >= h; j -= h) {
+				if (arr[j] < arr[j - h]) swap(arr, j, j - h);
 			}
 		}
-		h = Math.floor(h/3);
+		h = Math.floor(h / 3);
 	}
 	return arr;
 }
 
 function bubbleSort(arr) {
 	var swapMade;
-	for (var end = arr.length-2; end >= 0; end--) {
+	for (var end = arr.length - 2; end >= 0; end--) {
 		swapMade = false;
 		for (var i = 0; i <= end; i++) {
-			if (arr[i] > arr[i+1]) {
-				swap(arr, i, i+1);
+			if (arr[i] > arr[i + 1]) {
+				swap(arr, i, i + 1);
 				swapMade = true;
 			}
 		}
@@ -84,18 +84,18 @@ function bubbleSort(arr) {
 
 function cocktailSort(arr) {
 	var start = 0;
-	var end = arr.length-2;
+	var end = arr.length - 2;
 	var i;
 	while (start <= end) {
 		for (i = start; i <= end; i++) {
-			if (arr[i] > arr[i+1]) {
-				swap(arr, i, i+1);
+			if (arr[i] > arr[i + 1]) {
+				swap(arr, i, i + 1);
 			}
 		}
 		start++
 		for (i = end; i >= start; i--) {
-			if (arr[i] < arr[i-1]) {
-				swap(arr, i, i-1);
+			if (arr[i] < arr[i - 1]) {
+				swap(arr, i, i - 1);
 			}
 		}
 		end--;
@@ -112,16 +112,13 @@ function merge(a, b) {
 		if (i === aLen) {
 			retArr.push(b[j]);
 			j++;
-		}
-		else if (j === bLen) {
+		} else if (j === bLen) {
 			retArr.push(a[i]);
 			i++;
-		}
-		else if (a[i] < b[j]) {
+		} else if (a[i] < b[j]) {
 			retArr.push(a[i]);
 			i++;
-		}
-		else {
+		} else {
 			retArr.push(b[j]);
 			j++;
 		}
@@ -131,8 +128,8 @@ function merge(a, b) {
 
 function mergeSort(arr) {
 	if (arr.length === 1) return arr;
-	var mid = Math.floor(arr.length/2);
-	var left = arr.slice(0,mid);
+	var mid = Math.floor(arr.length / 2);
+	var left = arr.slice(0, mid);
 	var right = arr.slice(mid);
 	left = mergeSort(left);
 	right = mergeSort(right);
@@ -143,9 +140,9 @@ function bottomUpMergeSort(arr) {
 	var len = arr.length;
 	var left, right, result;
 	for (var sz = 1; sz < len; sz += sz) {
-		for (var lo = 0; lo < len-sz; lo += 2*sz) {
-			left = arr.slice(lo, lo+sz);
-			right = arr.slice(lo+sz, lo+sz+sz);
+		for (var lo = 0; lo < len - sz; lo += 2 * sz) {
+			left = arr.slice(lo, lo + sz);
+			right = arr.slice(lo + sz, lo + sz + sz);
 			result = merge(left, right);
 			Array.prototype.splice.apply(arr, [lo, result.length].concat(result));
 		}
@@ -156,8 +153,8 @@ function bottomUpMergeSort(arr) {
 function quickSort(arr, start, end) {
 	if (start < end) {
 		var pIndex = randomizedPartition(arr, start, end); // get pIndex
-		quickSort(arr, start, pIndex-1);				 // sort left half
-		quickSort(arr, pIndex+1, end);					 // sort right half
+		quickSort(arr, start, pIndex - 1); // sort left half
+		quickSort(arr, pIndex + 1, end); // sort right half
 	}
 }
 

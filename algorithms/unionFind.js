@@ -49,8 +49,7 @@ UF3.prototype.union = function(i, j) {
 	if (this.sz[iRoot] < this.sz[jRoot]) {
 		this.arr[iRoot] = jRoot;
 		this.sz[jRoot] += this.sz[iRoot];
-	}
-	else {
+	} else {
 		this.arr[jRoot] = iRoot;
 		this.sz[iRoot] += this.sz[jRoot];
 	}

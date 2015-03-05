@@ -10,58 +10,58 @@ describe("Sorting algorithms:", function() {
 	it("selection sort", function() {
 		expect(selectionSort(one)).toEqual([5]);
 		expect(selectionSort(two)).toEqual([2, 5]);
-		expect(selectionSort(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(selectionSort(multiple)).toEqual([1, 2, 3, 4, 5, 6]);
 		expect(selectionSort(large)).toEqual(largeResult);
 	});
 	it("insertion sort iterative", function() {
 		expect(insertionSort(one)).toEqual([5]);
 		expect(insertionSort(two)).toEqual([2, 5]);
-		expect(insertionSort(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(insertionSort(multiple)).toEqual([1, 2, 3, 4, 5, 6]);
 		expect(insertionSort(large)).toEqual(largeResult);
 	});
 	it("insertion sort recursive", function() {
 		expect(insertionSortRecursive(one)).toEqual([5]);
 		expect(insertionSortRecursive(two)).toEqual([2, 5]);
-		expect(insertionSortRecursive(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(insertionSortRecursive(multiple)).toEqual([1, 2, 3, 4, 5, 6]);
 		expect(insertionSortRecursive(large)).toEqual(largeResult);
 	});
 	it('shell sort', function() {
 		expect(shellSort(one)).toEqual([5]);
 		expect(shellSort(two)).toEqual([2, 5]);
-		expect(shellSort(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(shellSort(multiple)).toEqual([1, 2, 3, 4, 5, 6]);
 		expect(shellSort(large)).toEqual(largeResult);
 	});
 	it("bubble sort", function() {
 		expect(bubbleSort(one)).toEqual([5]);
 		expect(bubbleSort(two)).toEqual([2, 5]);
-		expect(bubbleSort(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(bubbleSort(multiple)).toEqual([1, 2, 3, 4, 5, 6]);
 		expect(bubbleSort(large)).toEqual(largeResult);
 	});
 	it("cocktail sort", function() {
 		expect(cocktailSort(one)).toEqual([5]);
 		expect(cocktailSort(two)).toEqual([2, 5]);
-		expect(cocktailSort(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(cocktailSort(multiple)).toEqual([1, 2, 3, 4, 5, 6]);
 		expect(cocktailSort(large)).toEqual(largeResult);
 	});
 	it("merge", function() {
-		expect(merge([1], [1])).toEqual([1,1]);
-		expect(merge([1], [2])).toEqual([1,2]);
-		expect(merge([2], [1])).toEqual([1,2]);
-		expect(merge([2], [1,3])).toEqual([1,2,3]);
-		expect(merge([2,5,6], [1,3,4])).toEqual([1,2,3,4,5,6]);
-		expect(merge([2,5,6], [1,2,4])).toEqual([1,2,2,4,5,6]);
+		expect(merge([1], [1])).toEqual([1, 1]);
+		expect(merge([1], [2])).toEqual([1, 2]);
+		expect(merge([2], [1])).toEqual([1, 2]);
+		expect(merge([2], [1, 3])).toEqual([1, 2, 3]);
+		expect(merge([2, 5, 6], [1, 3, 4])).toEqual([1, 2, 3, 4, 5, 6]);
+		expect(merge([2, 5, 6], [1, 2, 4])).toEqual([1, 2, 2, 4, 5, 6]);
 	});
 	it("merge sort", function() {
 		expect(mergeSort(one)).toEqual([5]);
 		expect(mergeSort(two)).toEqual([2, 5]);
-		expect(mergeSort(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(mergeSort(multiple)).toEqual([1, 2, 3, 4, 5, 6]);
 		expect(mergeSort(large)).toEqual(largeResult);
 	});
 	it("bottom up merge sort", function() {
 		// iterative, not recursive
 		expect(bottomUpMergeSort(one)).toEqual([5]);
 		expect(bottomUpMergeSort(two)).toEqual([2, 5]);
-		expect(bottomUpMergeSort(multiple)).toEqual([1,2,3,4,5,6]);
+		expect(bottomUpMergeSort(multiple)).toEqual([1, 2, 3, 4, 5, 6]);
 		expect(bottomUpMergeSort(large)).toEqual(largeResult);
 	});
 	// it("quick sort", function() {
