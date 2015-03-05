@@ -3,6 +3,7 @@ function Node(val) {
 	this.prev = null;
 	this.next = null;
 }
+
 function LinkedList() {
 	this.head = new Node('head');
 	this.tail = this.head;
@@ -24,8 +25,7 @@ LinkedList.prototype.pop = function() {
 		this.tail = this.head;
 		this.size--;
 		return toRet;
-	}
-	else {
+	} else {
 		var curr = this.head.next;
 		while (curr.next.next) {
 			curr = curr.next;
@@ -42,8 +42,7 @@ LinkedList.prototype.unshift = function(val) {
 	if (this._isEmpty()) {
 		this.head.next = n;
 		this.tail = n;
-	}
-	else {
+	} else {
 		var oldFirst = this.head.next;
 		this.head.next = n;
 		n.next = oldFirst;
@@ -57,8 +56,7 @@ LinkedList.prototype.shift = function() {
 		this.tail = this.head;
 		this.size--;
 		return toRet;
-	}
-	else {
+	} else {
 		var oldFirst = this.head.next;
 		this.head.next = oldFirst.next;
 		this.size--;
@@ -95,8 +93,7 @@ LinkedList.prototype.insert = function(el, prevVal) {
 		prevEl.next = n;
 		n.next = temp;
 		this.size++;
-	}
-	else {
+	} else {
 		this.push(el);
 	}
 };

@@ -34,8 +34,7 @@ DoublyLinkedList.prototype.unshift = function(el) {
 	var n = new Node(el);
 	if (this._isEmpty()) {
 		this.push(el);
-	}
-	else {
+	} else {
 		var oldFirst = this.head.next;
 		this.head.next = n;
 		n.next = oldFirst;
@@ -48,8 +47,7 @@ DoublyLinkedList.prototype.shift = function() {
 	if (this._isEmpty()) throw "can't shift from an empty doubly linked list";
 	else if (this.size === 1) {
 		return this.pop();
-	}
-	else {
+	} else {
 		var oldFirst = this.head.next;
 		var newFirst = oldFirst.next;
 		this.head.next = newFirst;
@@ -78,8 +76,7 @@ DoublyLinkedList.prototype.insert = function(el, prev) {
 	var next = prev.next;
 	if (next === null) {
 		this.push(el);
-	}
-	else {
+	} else {
 		prev.next = n;
 		n.next = next;
 		next.prev = n;
@@ -93,8 +90,7 @@ DoublyLinkedList.prototype.removeEl = function(val) {
 	var next = el.next;
 	if (next === null) {
 		this.pop();
-	}
-	else {
+	} else {
 		prev.next = next;
 		next.prev = prev;
 		this.size--;

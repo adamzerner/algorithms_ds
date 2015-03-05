@@ -70,7 +70,7 @@ describe('A List', function() {
     l.push('a');
     l.push('b');
     l.push('c');
-    l.splice(1,2);
+    l.splice(1, 2);
     expect(l.size()).toBe(1); // splice decrements
   });
   it('can indexOf', function() {
@@ -128,7 +128,7 @@ describe('A List', function() {
     l.push('b');
     l.push('c');
     l.push('d');
-    l.removeEl('b'); 
+    l.removeEl('b');
     expect(l.toString()).toBe('a, c, d'); // can remove from front half
     l.push('e');
     l.removeEl('d');
@@ -144,7 +144,7 @@ describe('A List', function() {
     l.push('c');
     l.push('d');
     l.push('e');
-    var ret = l.splice(2,2);
+    var ret = l.splice(2, 2);
     expect(ret).toEqual(['c', 'd']);
     expect(l.toString()).toBe('a, b, e');
   });

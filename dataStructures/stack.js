@@ -15,7 +15,7 @@ Stack.prototype._resize = function(size) {
 Stack.prototype.push = function(el) {
 	this.top++;
 	if (this.top === this.data.length) {
-		this._resize(2*this.data.length);
+		this._resize(2 * this.data.length);
 	}
 	this.data[this.top] = el;
 };
@@ -24,8 +24,8 @@ Stack.prototype.pop = function() {
 	var oldTop = this.data[this.top];
 	this.data[this.top] = null;
 	this.top--;
-	if (this.top > 0 && this.top <= this.data.length/4) {
-		this._resize(this.data.length/2);
+	if (this.top > 0 && this.top <= this.data.length / 4) {
+		this._resize(this.data.length / 2);
 	}
 	return oldTop;
 };

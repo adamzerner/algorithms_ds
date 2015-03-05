@@ -15,8 +15,7 @@ List.prototype.push = function(el) {
 		this.data[0] = el;
 		this.head = 0;
 		this.tail = 0;
-	}
-	else {
+	} else {
 		this.tail++;
 		this.data[this.tail] = el;
 	}
@@ -29,8 +28,7 @@ List.prototype.pop = function() {
 		this.head = null;
 		this.tail = null;
 		return toRet;
-	}
-	else {
+	} else {
 		var toRet = this.data[this.tail];
 		this.tail--;
 		return toRet;
@@ -41,8 +39,7 @@ List.prototype.unshift = function(el) {
 		this.data[0] = el;
 		this.head = 0;
 		this.tail = 0;
-	}
-	else {
+	} else {
 		this.head--;
 		this.data[this.head] = el;
 	}
@@ -55,8 +52,7 @@ List.prototype.shift = function() {
 		this.head = null;
 		this.tail = null;
 		return toRet;
-	}
-	else {
+	} else {
 		var toRet = this.data[this.head];
 		this.head++;
 		return toRet;
@@ -78,20 +74,18 @@ List.prototype.insert = function(el, pos) {
 		this.data[0] = el;
 		this.head = 0;
 		this.tail = 0;
-	}
-	else {
+	} else {
 		pos += this.head;
-		var mid = (this.head+this.tail)/2;
+		var mid = (this.head + this.tail) / 2;
 		if (pos < mid) {
-			for (var i = this.head; i <= pos-1; i++) {
-				this.data[i-1] = this.data[i];
+			for (var i = this.head; i <= pos - 1; i++) {
+				this.data[i - 1] = this.data[i];
 			}
-			this.data[pos-1] = el;
+			this.data[pos - 1] = el;
 			this.head--;
-		}
-		else if (pos >= mid) {
+		} else if (pos >= mid) {
 			for (var i = this.tail; i >= pos; i--) {
-				this.data[i+1] = this.data[i];
+				this.data[i + 1] = this.data[i];
 			}
 			this.data[pos] = el;
 			this.tail++;
@@ -101,16 +95,15 @@ List.prototype.insert = function(el, pos) {
 List.prototype.removeIndex = function(index) {
 	index += this.head;
 	if (index < this.head || index > this.tail) throw "can't removeIndex";
-	var mid = (this.head+this.tail)/2;
+	var mid = (this.head + this.tail) / 2;
 	if (index < mid) {
-		for (var i = index; i >= this.head+1; i--) {
-			this.data[i] = this.data[i-1];
+		for (var i = index; i >= this.head + 1; i--) {
+			this.data[i] = this.data[i - 1];
 		}
 		this.head++;
-	}
-	else if (index >= mid) {
-		for (var i = index; i <= this.tail-1; i++) {
-			this.data[i] = this.data[i+1];
+	} else if (index >= mid) {
+		for (var i = index; i <= this.tail - 1; i++) {
+			this.data[i] = this.data[i + 1];
 		}
 		this.tail--;
 	}
@@ -124,11 +117,11 @@ List.prototype.removeEl = function(el) {
 List.prototype.splice = function(start, num) {
 	start += this.head;
 	var retArr = [];
-	for (var i = start; i < start+num; i++) {
+	for (var i = start; i < start + num; i++) {
 		retArr.push(this.data[i]);
 	}
-	for (var i = start+num; i <= this.tail; i++) {
-		this.data[i-num] = this.data[i];
+	for (var i = start + num; i <= this.tail; i++) {
+		this.data[i - num] = this.data[i];
 	}
 	this.tail -= num;
 	return retArr;
@@ -136,7 +129,7 @@ List.prototype.splice = function(start, num) {
 List.prototype.toString = function() {
 	if (this._isEmpty()) return '';
 	var retStr = '';
-	for (var i = this.head; i <= this.tail-1; i++) {
+	for (var i = this.head; i <= this.tail - 1; i++) {
 		retStr += this.data[i] + ', ';
 	}
 	retStr += this.data[i];

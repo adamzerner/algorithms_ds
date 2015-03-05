@@ -2,7 +2,7 @@ describe('A Binary Search Tree', function() {
   var bst, empty;
   beforeEach(function() {
     jasmine.addMatchers({
-      toBeABSTNode: function () {
+      toBeABSTNode: function() {
         return {
           compare: function(actual, expected) {
             var result = {};

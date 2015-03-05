@@ -16,8 +16,7 @@ Queue.prototype.enqueue = function(el) {
 		this.front = 0;
 		this.back = 0;
 		this.data[0] = el;
-	}
-	else {
+	} else {
 		this.back++;
 		this.data[this.back] = el;
 	}
@@ -30,8 +29,7 @@ Queue.prototype.dequeue = function() {
 		this.back = null;
 		this.data = {};
 		return toRet;
-	}
-	else {
+	} else {
 		var toRet = this.data[this.front];
 		delete this.data[this.front];
 		this.front++;

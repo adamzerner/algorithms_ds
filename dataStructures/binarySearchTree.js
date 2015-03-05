@@ -3,6 +3,7 @@ function BSTNode(val) {
 	this.left = null;
 	this.right = null;
 }
+
 function BST() {
 	this.root = null;
 }
@@ -17,8 +18,7 @@ BST.prototype.insert = function(val, root) {
 		if (val < root.val) {
 			if (!root.left) root.left = n;
 			else this.insert(val, root.left);
-		}
-		else {
+		} else {
 			if (!root.right) root.right = n;
 			else this.insert(val, root.right);
 		}
@@ -27,6 +27,7 @@ BST.prototype.insert = function(val, root) {
 BST.prototype.preorder = function() {
 	if (this._isEmpty()) return '';
 	var retStr = '';
+
 	function inner(curr) {
 		retStr += curr.val;
 		if (curr.left) inner(curr.left);
@@ -38,6 +39,7 @@ BST.prototype.preorder = function() {
 BST.prototype.inorder = function() {
 	if (this._isEmpty()) return '';
 	var retStr = '';
+
 	function inner(curr) {
 		if (curr.left) inner(curr.left);
 		retStr += curr.val;
@@ -49,6 +51,7 @@ BST.prototype.inorder = function() {
 BST.prototype.postorder = function() {
 	if (this._isEmpty()) return '';
 	var retStr = '';
+
 	function inner(curr) {
 		if (curr.left) inner(curr.left);
 		if (curr.right) inner(curr.right);
@@ -117,16 +120,14 @@ BST.prototype.remove = function(val) {
 	if (parent.left.val === val) {
 		el = parent.left;
 		parentDir = 'left';
-	}
-	else {
+	} else {
 		el = parent.right;
 		parentDir = 'right';
 	}
 
 	if (!el.left && !el.right) { // leaf
 		parent[parentDir] = null;
-	}
-	else if (el.left && el.right) { // two children
+	} else if (el.left && el.right) { // two children
 		// get smallest of right subtree
 		var min = el.right;
 		var minParent = el;
@@ -140,8 +141,7 @@ BST.prototype.remove = function(val) {
 		el.val = min.val;
 		// remove min
 		minParent[minParentDir] = min.right;
-	}
-	else { // one child
+	} else { // one child
 		var child;
 		if (el.left) child = el.left;
 		else child = el.right;
