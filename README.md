@@ -1,5 +1,7 @@
 # Algorithms and Data Structures in JS
 
+To use, `cd` into `algorithms` or `dataStructures` and run `testem`.
+
 Specs and code for the algorithms and data structures I learn.
 - First I went through https://www.youtube.com/user/mycodeschool/playlists and implemented some data structures and algorithms.
 - Now I'm going through a big algorithms textbook and implementing the ones they teach.
