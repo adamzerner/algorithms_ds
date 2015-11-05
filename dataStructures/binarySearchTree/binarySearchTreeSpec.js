@@ -1,4 +1,4 @@
-describe('A Binary Search Tree', function() {
+xdescribe('A Binary Search Tree', function() {
   var bst, empty;
   beforeEach(function() {
     jasmine.addMatchers({

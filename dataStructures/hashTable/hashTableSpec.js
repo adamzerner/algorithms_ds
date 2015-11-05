@@ -1,4 +1,4 @@
-describe('A Hash Table', function() {
+xdescribe('A Hash Table', function() {
   // hash fn uses the number associated with the first letter (eg. a: 1, b: 2...)
   var h;
   beforeEach(function() {
