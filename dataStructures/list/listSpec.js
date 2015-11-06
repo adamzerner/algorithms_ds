@@ -31,6 +31,23 @@ implementations.forEach(function(implementation) {
       l = new implementation.constructor();
     });
 
+    describe('#toString', function() {
+      it('when empty', function() {
+        expect(l.toString()).toBe('');
+      });
+
+      it('with one element', function() {
+        l.push('a');
+        expect(l.toString()).toBe('a');
+      });
+
+      it('with multiple elements', function() {
+        l.push('a');
+        l.push('b');
+        expect(l.toString()).toBe('a, b');
+      });
+    });
+
     describe('#push', function() {
       it('when empty', function() {
         l.push('a');
@@ -57,23 +74,6 @@ implementations.forEach(function(implementation) {
         var ret = l.pop();
         expect(ret).toBe('b');
         expect(l.toString()).toBe('a');
-      });
-    });
-
-    describe('#toString', function() {
-      it('when empty', function() {
-        expect(l.toString()).toBe('');
-      });
-
-      it('with one element', function() {
-        l.push('a');
-        expect(l.toString()).toBe('a');
-      });
-
-      it('with multiple elements', function() {
-        l.push('a');
-        l.push('b');
-        expect(l.toString()).toBe('a, b');
       });
     });
 

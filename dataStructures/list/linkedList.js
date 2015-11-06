@@ -9,6 +9,22 @@ function LinkedList() {
 	this._size = 0;
 }
 
+LinkedList.prototype.toString = function() {
+	if (this._size === 0) {
+		return '';
+	}
+
+	var str = '';
+	var curr = this.head.next;
+
+	while (curr) {
+		str += curr.data.toString() + ', ';
+		curr = curr.next;
+	}
+
+	return str.slice(0, -2); // to get rid of the trailing ', '
+};
+
 LinkedList.prototype.push = function(el) {
 	var newNode = new Node(el);
 	this.tail.next = newNode;
@@ -34,22 +50,6 @@ LinkedList.prototype.pop = function() {
 	this._size--;
 
 	return oldTail.data;
-};
-
-LinkedList.prototype.toString = function() {
-	if (this._size === 0) {
-		return '';
-	}
-
-	var str = '';
-	var curr = this.head.next;
-
-	while (curr) {
-		str += curr.data.toString() + ', ';
-		curr = curr.next;
-	}
-
-	return str.slice(0, -2); // to get rid of the trailing ', '
 };
 
 LinkedList.prototype.unshift = function(el) {

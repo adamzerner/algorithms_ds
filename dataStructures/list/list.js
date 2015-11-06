@@ -3,6 +3,21 @@ function List() {
 	this.end = -1;
 }
 
+List.prototype.toString = function() {
+	if (this.end === -1) {
+		return '';
+	}
+
+	var str = '';
+
+	for (var i = 0; i <= this.end; i++) {
+		str += this.data[i].toString() + ', ';
+	}
+	str = str.slice(0, -2); // remove trailing ', '
+
+	return str;
+};
+
 List.prototype.push = function(el) {
 	this.end++;
 	this.data[this.end] = el;
@@ -17,21 +32,6 @@ List.prototype.pop = function() {
 	delete this.data[this.end];
 	this.end--;
 	return toReturn;
-};
-
-List.prototype.toString = function() {
-	if (this.end === -1) {
-		return '';
-	}
-
-	var str = '';
-
-	for (var i = 0; i <= this.end; i++) {
-		str += this.data[i].toString() + ', ';
-	}
-	str = str.slice(0, -2); // remove trailing ', '
-
-	return str;
 };
 
 List.prototype.unshift = function(el) {
