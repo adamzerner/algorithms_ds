@@ -5,59 +5,51 @@ function Node(el) {
 
 function LinkedList() {
 	this.head = new Node('head');
+	this.tail = this.head;
 	this._size = 0;
 }
 
 LinkedList.prototype.push = function(el) {
 	var newNode = new Node(el);
-
-	var curr = this.head;
-
-	while (curr.next) {
-		curr = curr.next;
-	}
-
-	curr.next = newNode;
-
+	this.tail.next = newNode;
+	this.tail = newNode;
 	this._size++;
 };
 
 LinkedList.prototype.pop = function() {
-	var curr = this.head;
-	var toReturn;
-
 	if (this._size === 0) {
 		throw "an empty list can't pop";
 	}
+
+	var oldTail;
+	var curr = this.head;
 
 	while (curr.next.next) {
 		curr = curr.next;
 	}
 
-	toReturn = curr.next.data;
+	oldTail = curr.next;
 	curr.next = null;
+	this.tail = curr;
 	this._size--;
 
-	return toReturn;
+	return oldTail.data;
 };
 
 LinkedList.prototype.toString = function() {
-	var curr, str = '';
-
 	if (this._size === 0) {
 		return '';
 	}
 
-	curr = this.head.next;
+	var str = '';
+	var curr = this.head.next;
 
 	while (curr) {
 		str += curr.data.toString() + ', ';
 		curr = curr.next;
 	}
 
-	str = str.slice(0, -2); // remove trailing ', '
-
-	return str;
+	return str.slice(0, -2); // to get rid of the trailing ', '
 };
 
 LinkedList.prototype.unshift = function(el) {
@@ -65,6 +57,11 @@ LinkedList.prototype.unshift = function(el) {
 	var oldFirst = this.head.next;
 	this.head.next = newNode;
 	newNode.next = oldFirst;
+
+	if (oldFirst === null) {
+		this.tail = newNode;
+	}
+
 	this._size++;
 };
 
@@ -75,19 +72,26 @@ LinkedList.prototype.shift = function() {
 
 	var oldFirst = this.head.next;
 	this.head.next = oldFirst.next;
+
+	if (this._size === 1) {
+		this.tail = this.head;
+	}
+
 	this._size--;
 	return oldFirst.data;
 };
 
 LinkedList.prototype.read = function(index) {
-	if (index > this._size) {
+	if (index >= this._size) {
 		return undefined;
 	}
 
 	var curr = this.head.next;
+
 	for (var i = 0; i < index; i++) {
 		curr = curr.next;
 	}
+
 	return curr.data;
 };
 
@@ -97,21 +101,24 @@ LinkedList.prototype.clear = function() {
 	}
 
 	this.head.next = null;
+	this.tail = this.head;
 	this._size = 0;
 };
 
 LinkedList.prototype.indexOf = function(el) {
-	var curr = this.head.next;
+	var curr = this.head;
+	var index = -1;
 
-	for (var i = 0; i < this._size; i++) {
-		if (curr.data === el) {
-			return i;
-		}
-
+	while (curr.next) {
 		curr = curr.next;
+		index++;
+
+		if (curr.data === el) {
+			break;
+		}
 	}
 
-	return -1;
+	return index;
 };
 
 LinkedList.prototype.size = function() {
@@ -119,56 +126,63 @@ LinkedList.prototype.size = function() {
 };
 
 LinkedList.prototype.insert = function(el, index) {
+	if (index > this._size) {
+		throw "can't insert at an invalid index";
+	}
+
 	var newNode = new Node(el);
+	var previous = this._findPrevious(index);
+	var oldNext = previous.next;
+	previous.next = newNode;
+	newNode.next = oldNext;
+
+	if (oldNext === null) {
+		this.tail = newNode;
+	}
+
+	this._size++;
+};
+
+LinkedList.prototype.remove = function(start, end) {
+	if (this._size === 0) {
+		throw "can't remove from an empty list";
+	}
+
+	if (start >= this._size || end >= this._size) {
+		throw "can't remove an element that doesn't exist";
+	}
+
+	var previous = this._findPrevious(start);
+	var after = previous;
+	var range = end ? end - start + 1 : 1;
+	var toReturn = [];
+
+	for (var i = 0; i < range; i++) {
+		after = after.next;
+		toReturn.push(after.data);
+	}
+	after = after.next;
+
+	previous.next = after;
+
+	if (end === this._size - 1) {
+		this.tail = previous;
+	}
+
+	this._size -= range;
+
+	if (toReturn.length === 1) {
+		return toReturn[0];
+	}
+	return toReturn;
+};
+
+LinkedList.prototype._findPrevious = function(index) {
 	var curr = this.head;
-	var oldNext;
 
 	for (var i = 0; i < index; i++) {
 		curr = curr.next;
 	}
 
-	oldNext = curr.next;
-	curr.next = newNode;
-	newNode.next = oldNext;
-
-	this._size++;
-};
-
-LinkedList.prototype.remove = function(startIndex, endIndex) {
-	if (this._size === 0) {
-		throw "can't remove from an empty list";
-	}
-
-	if (startIndex >= this._size || endIndex >= this._size) {
-		throw "can't remove an element that doesn't exist";
-	}
-
-	var curr = this.head;
-	var startNode, endNode, toReturn;
-
-	for (var i = 0; i < startIndex; i++) {
-		curr = curr.next;
-	}
-	startNode = curr;
-
-	if (endIndex) {
-		toReturn = [];
-
-		for (; i <= endIndex; i++) {
-			curr = curr.next;
-			toReturn.push(curr.data);
-		}
-
-		endNode = curr;
-		startNode.next = endNode.next;
-		this._size -= endIndex - startIndex + 1;
-	}
-
-	else {
-		toReturn = startNode.next.data;
-		startNode.next = startNode.next.next;
-		this._size--;
-	}
-
-	return toReturn;
+	return curr;
 };

@@ -20,11 +20,11 @@ List.prototype.pop = function() {
 };
 
 List.prototype.toString = function() {
-	var str = '';
-
 	if (this.end === -1) {
-		return str;
+		return '';
 	}
+
+	var str = '';
 
 	for (var i = 0; i <= this.end; i++) {
 		str += this.data[i].toString() + ', ';
@@ -87,6 +87,10 @@ List.prototype.size = function() {
 };
 
 List.prototype.insert = function(el, index) {
+	if (index > this.end + 1) {
+		throw "can't insert at an invalid index";
+	}
+
 	for (var i = this.end; i >= index; i--) {
 		this.data[i+1] = this.data[i];
 	}
@@ -96,9 +100,6 @@ List.prototype.insert = function(el, index) {
 };
 
 List.prototype.remove = function(start, end) {
-	var amountToRemove = end - start + 1;
-	var amountToRemove, toReturn, i;
-
 	// handle invalid input
 	if (this.end === -1) {
 		throw "can't remove from an empty list"
@@ -107,6 +108,9 @@ List.prototype.remove = function(start, end) {
 	if (start > this.end || end > this.end) {
 		throw "can't remove an element that doesn't exist";
 	}
+
+	var amountToRemove = end - start + 1;
+	var amountToRemove, toReturn, i;
 
 	// get stuff to remove
 	if (!end) {

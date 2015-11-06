@@ -79,8 +79,8 @@ implementations.forEach(function(implementation) {
 
     describe('#unshift', function() {
       it('when empty', function() {
-        l.unshift('b');
-        expect(l.toString()).toBe('b');
+        l.unshift('a');
+        expect(l.toString()).toBe('a');
       });
 
       it('when populated', function() {
@@ -206,6 +206,12 @@ implementations.forEach(function(implementation) {
     });
 
     describe('#insert', function() {
+      it("can't insert at an invald index", function() {
+        expect(function() {
+          l.insert('a', 1);
+        }).toThrow("can't insert at an invalid index");
+      });
+
       it('can initialize with insert', function() {
         l.insert('a', 0);
         expect(l.toString()).toBe('a');
