@@ -2,49 +2,71 @@ function Stack() {
 	this.data = new Array(5);
 	this.top = -1;
 }
-Stack.prototype._isEmpty = function() {
-	return this.top === -1;
-};
-Stack.prototype._resize = function(size) {
-	var temp = new Array(size);
-	for (var i = 0, len = size; i < len; i++) {
-		temp[i] = this.data[i];
+
+Stack.prototype.toString = function() {
+	var str = '';
+
+	for (var i = 0; i <= this.top; i++) {
+		str += this.data[i] + ', ';
 	}
-	this.data = temp;
+
+	return str.slice(0, -2); // to remove the trailing ', '
 };
+
 Stack.prototype.push = function(el) {
 	this.top++;
+
+	// if no room left, double the size
 	if (this.top === this.data.length) {
-		this._resize(2 * this.data.length);
+		var oldData = this.data;
+		this.data = new Array(this.data.length * 2);
+
+		for (var i = 0; i < this.top; i++) {
+			this.data[i] = oldData[i];
+		}
 	}
+
 	this.data[this.top] = el;
 };
+
 Stack.prototype.pop = function() {
-	if (this._isEmpty()) throw "an empty stack can't pop";
-	var oldTop = this.data[this.top];
-	this.data[this.top] = null;
-	this.top--;
-	if (this.top > 0 && this.top <= this.data.length / 4) {
-		this._resize(this.data.length / 2);
+	if (this.top === -1) {
+		throw "can't pop from an empty stack";
 	}
+
+	var oldTop = this.data[this.top];
+	this.top--;
+
+	// if the data store is <= 25% of its capacity, cut it in half
+	if ((this.top + 1) / this.data.length <= .25) {
+		var oldData = this.data;
+		this.data = new Array(Math.ceil(this.data.length / 2));
+
+		for (var i = 0; i <= this.top; i++) {
+			this.data[i] = oldData[i];
+		}
+	}
+
 	return oldTop;
 };
-Stack.prototype.size = function() {
-	return this.top + 1;
-};
+
 Stack.prototype.peek = function() {
+	if (this.top === -1) {
+		throw "can't peek in an empty stack";
+	}
+
 	return this.data[this.top];
 };
+
 Stack.prototype.clear = function() {
-	this.data = {};
+	if (this.top === -1) {
+		throw "can't clear an empty stack";
+	}
+
+	this.data = new Array(5);
 	this.top = -1;
 };
-Stack.prototype.toString = function() {
-	if (this._isEmpty()) return '';
-	var retStr = '';
-	for (var i = 0; i < this.top; i++) {
-		retStr += this.data[i] + ', ';
-	}
-	retStr += this.data[i];
-	return retStr;
-};
+
+Stack.prototype.size = function() {
+	return this.top + 1;
+}

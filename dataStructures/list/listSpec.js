@@ -1,7 +1,9 @@
 /*
+
+INTERFACE:
+- toString
 - push
 - pop
-- toString
 - unshift
 - shift
 - read
@@ -10,7 +12,9 @@
 - size
 - insert
 - remove
+
 */
+
 
 var implementations = [{
   type: 'Array',
