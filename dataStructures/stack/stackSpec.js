@@ -18,12 +18,21 @@ describe('Stack', function() {
     s = new Stack();
   });
 
-  it('#toString', function() {
-    s.push('a');
-    s.push('b');
-    s.push('c');
-    var retStr = s.toString();
-    expect(retStr).toBe('a, b, c');
+  describe('#toString', function() {
+    it('when empty', function() {
+      expect(s.toString()).toBe('');
+    });
+
+    it('with one element', function() {
+      s.push('a');
+      expect(s.toString()).toBe('a');
+    });
+
+    it('with multiple elements', function() {
+      s.push('a');
+      s.push('b');
+      expect(s.toString()).toBe('a, b');
+    });
   });
 
   describe('#push', function() {
@@ -52,7 +61,11 @@ describe('Stack', function() {
       s.push('c');
       s.push('d');
       s.push('e');
+      // | a | b | c | d | e |
+
       s.push('f');
+      // | a | b | c | d | e | f | - | - | - | - |
+      
       expect(s.data.length).toBe(10);
     });
   });
@@ -81,11 +94,18 @@ describe('Stack', function() {
       s.push('c');
       s.push('d');
       s.push('e');
+      // | a | b | c | d | e |
+
       s.push('f');
+      // | a | b | c | d | e | f | - | - | - | - |
+
       s.pop();
       s.pop();
       s.pop();
       s.pop();
+      // | a | b | - | - | - | - | - | - | - | - |
+      // | a | b | - | - | - |
+
       expect(s.data.length).toBe(5);
     });
   });

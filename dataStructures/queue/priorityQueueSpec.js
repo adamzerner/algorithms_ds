@@ -1,4 +1,4 @@
-describe('A Priority Queue', function() {
+xdescribe('A Priority Queue', function() {
   var pq;
   beforeEach(function() {
     pq = new PriorityQueue;
