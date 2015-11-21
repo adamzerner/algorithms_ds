@@ -222,10 +222,6 @@ describe('BST', function() {
     });
   });
 
-  xdescribe('#isbst', function() {
-
-  });
-
   describe('#remove', function() {
     /*
               4
@@ -292,6 +288,37 @@ describe('BST', function() {
         expect(bst.remove(1)).toBe(1);
         expect(bst.find(1)).toBe(false);
       });
+    });
+  });
+
+  describe('#isBst', function() {
+    /*
+              3
+            2   5
+          1  4
+    */
+    it('invalid bst', function() {
+      bst.insert(3);
+      bst.insert(2);
+      bst.insert(5);
+      bst.insert(1);
+      bst.root.left.right = { el: 4, left: null, right: null };
+      expect(bst.isBst()).toBe(false);
+    });
+
+    /*
+              4
+            2   6
+          1    5  7
+    */
+    it('valid bst', function() {
+      bst.insert(4);
+      bst.insert(2);
+      bst.insert(6);
+      bst.insert(1);
+      bst.insert(5);
+      bst.insert(7);
+      expect(bst.isBst()).toBe(true);
     });
   });
 });

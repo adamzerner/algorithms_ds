@@ -204,3 +204,31 @@ BST.prototype._findParent = function(el, curr) {
     return this._findParent(el, curr.right);
   }
 };
+
+BST.prototype.isBst = function(min, max, curr) {
+  min = min || Number.NEGATIVE_INFINITY;
+  max = max || Number.POSITIVE_INFINITY;
+  curr = curr || this.root;
+
+  if (curr.el === null) {
+    return true;
+  }
+
+  if (curr.el > max) {
+    return false;
+  }
+
+  if (curr.el < min) {
+    return false;
+  }
+
+  if (!this.isBst(min, curr.el, curr.left)) {
+    return false;
+  }
+
+  if (!this.isBst(curr.el, max, curr.right)) {
+    return false;
+  }
+
+  return true;
+};
