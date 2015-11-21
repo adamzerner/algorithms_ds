@@ -7,21 +7,20 @@ Stack.prototype.toString = function() {
 	var str = '';
 
 	for (var i = 0; i <= this.top; i++) {
-		str += this.data[i] + ', ';
+		str += this.data[i];
 	}
 
-	return str.slice(0, -2); // to remove the trailing ', '
+	return str;
 };
 
 Stack.prototype.push = function(el) {
 	this.top++;
 
-	// if no room left, double the size
 	if (this.top === this.data.length) {
 		var oldData = this.data;
 		this.data = new Array(this.data.length * 2);
 
-		for (var i = 0; i < this.top; i++) {
+		for (var i = 0; i < oldData.length; i++) {
 			this.data[i] = oldData[i];
 		}
 	}
@@ -34,20 +33,19 @@ Stack.prototype.pop = function() {
 		throw "can't pop from an empty stack";
 	}
 
-	var oldTop = this.data[this.top];
+	var toReturn = this.data[this.top];
 	this.top--;
 
-	// if the data store is <= 25% of its capacity, cut it in half
-	if ((this.top + 1) / this.data.length <= .25) {
+	if ((this.top + 1) / this.data.length <= 0.25) {
 		var oldData = this.data;
-		this.data = new Array(Math.ceil(this.data.length / 2));
+		this.data = new Array(Math.ceil(oldData.length / 2));
 
 		for (var i = 0; i <= this.top; i++) {
 			this.data[i] = oldData[i];
 		}
 	}
 
-	return oldTop;
+	return toReturn;
 };
 
 Stack.prototype.peek = function() {
@@ -69,4 +67,4 @@ Stack.prototype.clear = function() {
 
 Stack.prototype.size = function() {
 	return this.top + 1;
-}
+};

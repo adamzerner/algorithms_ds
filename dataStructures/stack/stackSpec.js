@@ -31,7 +31,7 @@ describe('Stack', function() {
     it('with multiple elements', function() {
       s.push('a');
       s.push('b');
-      expect(s.toString()).toBe('a, b');
+      expect(s.toString()).toBe('ab');
     });
   });
 
@@ -44,7 +44,7 @@ describe('Stack', function() {
     it('when populated', function() {
       s.push('a');
       s.push('b');
-      expect(s.toString()).toEqual('a, b');
+      expect(s.toString()).toEqual('ab');
     });
 
     it('resizes', function() {
@@ -65,7 +65,7 @@ describe('Stack', function() {
 
       s.push('f');
       // | a | b | c | d | e | f | - | - | - | - |
-      
+
       expect(s.data.length).toBe(10);
     });
   });
