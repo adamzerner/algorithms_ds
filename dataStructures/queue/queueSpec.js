@@ -1,7 +1,3 @@
-// https://www.youtube.com/watch?v=M2CFFULmONk
-
-// TODO: test for a circular array and resizing stuff
-
 /*
 
 INTERFACE:
@@ -15,12 +11,12 @@ INTERFACE:
 */
 
 var implementations = [{
-  type: 'Linked List',
-  constructor: QueueLinkedList
-}, {
   type: 'Array',
   constructor: QueueArray
-}];
+} /*, {
+  type: 'Linked List',
+  constructor: QueueLinkedList
+}*/];
 
 implementations.forEach(function(implementation) {
   describe('Queue: ' + implementation.type + ' implementation', function() {
@@ -43,7 +39,7 @@ implementations.forEach(function(implementation) {
       it('with multiple elements', function() {
         q.enqueue('a');
         q.enqueue('b');
-        expect(q.toString()).toBe('a, b');
+        expect(q.toString()).toBe('ab');
       });
     });
 
@@ -56,7 +52,7 @@ implementations.forEach(function(implementation) {
       it('when populated', function() {
         q.enqueue('a');
         q.enqueue('b');
-        expect(q.toString()).toEqual('a, b');
+        expect(q.toString()).toEqual('ab');
       });
 
       if (implementation.type === 'Array') {
@@ -103,12 +99,22 @@ implementations.forEach(function(implementation) {
         }).toThrow("an empty queue can't dequeue");
       });
 
-      it('when populated', function() {
+      it('with one element', function() {
+        q.enqueue('a');
+        var ret = q.dequeue();
+        expect(ret).toBe('a');
+        expect(q.toString()).toBe('');
+        q.enqueue('b');
+        q.enqueue('c');
+        expect(q.toString()).toBe('bc');
+      });
+
+      it('with multiple elements', function() {
         q.enqueue('a');
         q.enqueue('b');
         var ret = q.dequeue();
         expect(ret).toBe('a');
-        expect(q.toString()).toEqual('b');
+        expect(q.toString()).toBe('b');
       });
 
       if (implementation.type === 'Array') {
@@ -116,6 +122,7 @@ implementations.forEach(function(implementation) {
         it('resizes', function() {
           expect(q.data.length).toBe(5);
 
+          debugger;
           q.enqueue('a');
           q.enqueue('b');
           q.enqueue('c');
