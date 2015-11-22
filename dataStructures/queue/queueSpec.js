@@ -10,13 +10,13 @@ INTERFACE:
 
 */
 
-var implementations = [{
+var implementations = [/*{
   type: 'Array',
   constructor: QueueArray
-} /*, {
+},*/ {
   type: 'Linked List',
   constructor: QueueLinkedList
-}*/];
+}];
 
 implementations.forEach(function(implementation) {
   describe('Queue: ' + implementation.type + ' implementation', function() {

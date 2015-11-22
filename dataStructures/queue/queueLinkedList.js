@@ -1,72 +1,63 @@
 function Node(el) {
-  this.data = el;
+  this.el = el;
   this.next = null;
 }
 
 function QueueLinkedList() {
   this.head = new Node('head');
+  this.back = this.head;
   this._size = 0;
-  this._front = this.head;
-  this._back = this.head;
 }
 
 QueueLinkedList.prototype.toString = function() {
-  if (this._size === 0) {
-    return '';
-  }
-
-  var str = '';
   var curr = this.head.next;
+  var str = '';
 
   while (curr) {
-    str += curr.data.toString() + ', ';
+    str += curr.el.toString();
     curr = curr.next;
   }
 
-  return str.slice(0, -2);
+  return str;
 };
 
 QueueLinkedList.prototype.enqueue = function(el) {
   var newNode = new Node(el);
-
-  this._back.next = newNode;
-  this._back = newNode;
-
-  if (this._size === 0) {
-    this.head.next = newNode;
-    this._front = newNode;
-  }
-
+  this.back.next = newNode;
+  this.back = newNode;
   this._size++;
 };
 
 QueueLinkedList.prototype.dequeue = function() {
+  var oldFront;
+
   if (this._size === 0) {
     throw "an empty queue can't dequeue";
   }
 
-  var oldFront = this._front;
-
-  this.head.next = this._front.next;
-
-  if (this._size === 1) {
-    this._front = this.head;
-    this._back = this.head;
+  else if (this._size === 1) {
+    oldFront = this.head.next;
+    this.head.next = null;
+    this.back = this.head;
+    this._size = 0;
   }
+
   else {
-    this._front = this.head.next;
+    oldFront = this.head.next
+    this.head.next = oldFront.next;
+    this._size--;
   }
 
-  this._size--;
-  return oldFront.data;
+  return oldFront.el;
 };
+
 
 QueueLinkedList.prototype.front = function() {
   if (this._size === 0) {
     throw "can't get the front of an empty queue";
   }
 
-  return this._front.data;
+  return this.head.next.el;
 };
 
 QueueLinkedList.prototype.clear = function() {
@@ -74,9 +65,8 @@ QueueLinkedList.prototype.clear = function() {
     throw "can't clear an empty queue";
   }
 
-  this.head.next = null;
-  this._front = this.head;
-  this._back = this.head;
+  this.head = new Node('head');
+  this.back = this.head;
   this._size = 0;
 };
 
