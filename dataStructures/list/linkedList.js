@@ -1,5 +1,5 @@
 function Node(el) {
-	this.data = el;
+	this.el = el;
 	this.next = null;
 }
 
@@ -10,19 +10,15 @@ function LinkedList() {
 }
 
 LinkedList.prototype.toString = function() {
-	if (this._size === 0) {
-		return '';
-	}
-
 	var str = '';
 	var curr = this.head.next;
 
 	while (curr) {
-		str += curr.data.toString() + ', ';
+		str += curr.el.toString();
 		curr = curr.next;
 	}
 
-	return str.slice(0, -2); // to get rid of the trailing ', '
+	return str;
 };
 
 LinkedList.prototype.push = function(el) {
@@ -37,19 +33,16 @@ LinkedList.prototype.pop = function() {
 		throw "an empty list can't pop";
 	}
 
-	var oldTail;
-	var curr = this.head;
-
-	while (curr.next.next) {
-		curr = curr.next;
+	var newTail = this.head;
+	while (newTail.next !== this.tail) {
+		newTail = newTail.next;
 	}
 
-	oldTail = curr.next;
-	curr.next = null;
-	this.tail = curr;
+	var toReturn = this.tail;
+	newTail.next = null;
+	this.tail = newTail;
 	this._size--;
-
-	return oldTail.data;
+	return toReturn.el;
 };
 
 LinkedList.prototype.unshift = function(el) {
@@ -57,11 +50,6 @@ LinkedList.prototype.unshift = function(el) {
 	var oldFirst = this.head.next;
 	this.head.next = newNode;
 	newNode.next = oldFirst;
-
-	if (oldFirst === null) {
-		this.tail = newNode;
-	}
-
 	this._size++;
 };
 
@@ -72,17 +60,17 @@ LinkedList.prototype.shift = function() {
 
 	var oldFirst = this.head.next;
 	this.head.next = oldFirst.next;
+	this._size--;
 
 	if (this._size === 1) {
 		this.tail = this.head;
 	}
 
-	this._size--;
-	return oldFirst.data;
+	return oldFirst.el;
 };
 
 LinkedList.prototype.read = function(index) {
-	if (index >= this._size) {
+	if (index < 0 || index > this._size - 1) {
 		return undefined;
 	}
 
@@ -92,7 +80,7 @@ LinkedList.prototype.read = function(index) {
 		curr = curr.next;
 	}
 
-	return curr.data;
+	return curr.el;
 };
 
 LinkedList.prototype.clear = function() {
@@ -100,25 +88,25 @@ LinkedList.prototype.clear = function() {
 		throw "an empty list can't clear";
 	}
 
-	this.head.next = null;
+	this.head = new Node('head');
 	this.tail = this.head;
 	this._size = 0;
 };
 
 LinkedList.prototype.indexOf = function(el) {
-	var curr = this.head;
-	var index = -1;
+	var curr = this.head.next;
+	var i = 0;
 
-	while (curr.next) {
-		curr = curr.next;
-		index++;
-
-		if (curr.data === el) {
-			break;
+	while (curr) {
+		if (curr.el === el) {
+			return i;
 		}
+
+		i++;
+		curr = curr.next;
 	}
 
-	return index;
+	return -1;
 };
 
 LinkedList.prototype.size = function() {
@@ -126,20 +114,19 @@ LinkedList.prototype.size = function() {
 };
 
 LinkedList.prototype.insert = function(el, index) {
-	if (index > this._size) {
+	if (index < 0 || index >= this._size) {
 		throw "can't insert at an invalid index";
 	}
 
 	var newNode = new Node(el);
-	var previous = this._findPrevious(index);
-	var oldNext = previous.next;
-	previous.next = newNode;
-	newNode.next = oldNext;
 
-	if (oldNext === null) {
-		this.tail = newNode;
+	var previous = this.head;
+	for (var i = 0; i < index; i++) {
+		previous = previous.next;
 	}
 
+	newNode.next = previous.next;
+	previous.next = newNode;
 	this._size++;
 };
 
@@ -148,41 +135,27 @@ LinkedList.prototype.remove = function(start, end) {
 		throw "can't remove from an empty list";
 	}
 
-	if (start >= this._size || end >= this._size) {
+	if (start < 0 || end < 0 || start >= this._size || end >= this._size) {
 		throw "can't remove an element that doesn't exist";
 	}
 
-	var previous = this._findPrevious(start);
-	var after = previous;
-	var range = end ? end - start + 1 : 1;
-	var toReturn = [];
+	var before, after, range, toReturn = [];
+	end = end || start;
 
-	for (var i = 0; i < range; i++) {
+	before = this.head;
+	for (var i = 0; i < start; i++) {
+		before = before.next;
+	}
+
+	range = end - start + 1;
+	after = before;
+	for (var j = 0; j < range; j++) {
 		after = after.next;
-		toReturn.push(after.data);
+		toReturn.push(after.el);
 	}
 	after = after.next;
-
-	previous.next = after;
-
-	if (end === this._size - 1) {
-		this.tail = previous;
-	}
+	before.next = after;
 
 	this._size -= range;
-
-	if (toReturn.length === 1) {
-		return toReturn[0];
-	}
 	return toReturn;
-};
-
-LinkedList.prototype._findPrevious = function(index) {
-	var curr = this.head;
-
-	for (var i = 0; i < index; i++) {
-		curr = curr.next;
-	}
-
-	return curr;
 };

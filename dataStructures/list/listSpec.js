@@ -16,13 +16,13 @@ INTERFACE:
 */
 
 
-var implementations = [{
+var implementations = [/*{
   type: 'Array',
   constructor: List
 }, {
   type: 'Linked List',
   constructor: LinkedList
-}, {
+},*/ {
   type: 'Doubly Linked List',
   constructor: DoublyLinkedList
 }];
@@ -48,7 +48,7 @@ implementations.forEach(function(implementation) {
       it('with multiple elements', function() {
         l.push('a');
         l.push('b');
-        expect(l.toString()).toBe('a, b');
+        expect(l.toString()).toBe('ab');
       });
     });
 
@@ -61,7 +61,7 @@ implementations.forEach(function(implementation) {
       it('when populated', function() {
         l.push('a');
         l.push('b');
-        expect(l.toString()).toBe('a, b');
+        expect(l.toString()).toBe('ab');
       });
     });
 
@@ -90,14 +90,14 @@ implementations.forEach(function(implementation) {
       it('when populated', function() {
         l.push('b')
         l.unshift('a');
-        expect(l.toString()).toBe('a, b');
+        expect(l.toString()).toBe('ab');
       });
     });
 
     describe('#shift', function() {
       it('when empty', function() {
         expect(function() {
-          l.shift()
+          l.shift();
         }).toThrow("an empty list can't shift");
       });
 
@@ -190,8 +190,9 @@ implementations.forEach(function(implementation) {
       });
 
       it('inserting increments', function() {
+        l.push('b');
         l.insert('a', 0);
-        expect(l.size()).toBe(1);
+        expect(l.size()).toBe(2);
       });
 
       it('removing one decrements by one', function() {
@@ -216,28 +217,17 @@ implementations.forEach(function(implementation) {
         }).toThrow("can't insert at an invalid index");
       });
 
-      it('can initialize with insert', function() {
-        l.insert('a', 0);
-        expect(l.toString()).toBe('a');
-      });
-
       it('can insert in front', function() {
         l.push('b');
         l.insert('a', 0);
-        expect(l.toString()).toBe('a, b');
-      });
-
-      it('can insert at end', function() {
-        l.push('a');
-        l.insert('b', 1);
-        expect(l.toString()).toBe('a, b');
+        expect(l.toString()).toBe('ab');
       });
 
       it('can insert in the middle', function() {
         l.push('a');
         l.push('c');
         l.insert('b', 1);
-        expect(l.toString()).toBe('a, b, c');
+        expect(l.toString()).toBe('abc');
       });
     });
 
@@ -269,20 +259,20 @@ implementations.forEach(function(implementation) {
 
         it('in the front', function() {
           var returnedElement = l.remove(0);
-          expect(returnedElement).toBe('a');
-          expect(l.toString()).toBe('b, c');
+          expect(returnedElement).toEqual(['a']);
+          expect(l.toString()).toBe('bc');
         });
 
         it('in the middle', function() {
           var returnedElement = l.remove(1);
-          expect(returnedElement).toBe('b');
-          expect(l.toString()).toBe('a, c');
+          expect(returnedElement).toEqual(['b']);
+          expect(l.toString()).toBe('ac');
         });
 
         it('at the end', function() {
           var returnedElement = l.remove(1);
-          expect(returnedElement).toBe('b');
-          expect(l.toString()).toBe('a, c');
+          expect(returnedElement).toEqual(['b']);
+          expect(l.toString()).toBe('ac');
         });
       });
 
@@ -297,19 +287,19 @@ implementations.forEach(function(implementation) {
         it('in the front', function() {
           var returnedElements = l.remove(0,1);
           expect(returnedElements).toEqual(['a', 'b']);
-          expect(l.toString()).toBe('c, d');
+          expect(l.toString()).toBe('cd');
         });
 
         it('in the middle', function() {
           var returnedElements = l.remove(1,2);
           expect(returnedElements).toEqual(['b', 'c']);
-          expect(l.toString()).toBe('a, d');
+          expect(l.toString()).toBe('ad');
         });
 
         it('at the end', function() {
           var returnedElements = l.remove(2,3);
           expect(returnedElements).toEqual(['c', 'd']);
-          expect(l.toString()).toBe('a, b');
+          expect(l.toString()).toBe('ab');
         });
       });
     });

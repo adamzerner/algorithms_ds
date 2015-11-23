@@ -4,16 +4,11 @@ function List() {
 }
 
 List.prototype.toString = function() {
-	if (this.end === -1) {
-		return '';
-	}
-
 	var str = '';
 
 	for (var i = 0; i <= this.end; i++) {
-		str += this.data[i].toString() + ', ';
+		str += this.data[i].toString();
 	}
-	str = str.slice(0, -2); // remove trailing ', '
 
 	return str;
 };
@@ -23,19 +18,18 @@ List.prototype.push = function(el) {
 	this.data[this.end] = el;
 };
 
-List.prototype.pop = function() {
+List.prototype.pop = function(el) {
 	if (this.end === -1) {
 		throw "an empty list can't pop";
 	}
 
 	var toReturn = this.data[this.end];
-	delete this.data[this.end];
 	this.end--;
 	return toReturn;
 };
 
 List.prototype.unshift = function(el) {
-	for (var i = this.end; i >= 0; i--) {
+	for (var i = 0; i <= this.end; i++) {
 		this.data[i+1] = this.data[i];
 	}
 
@@ -43,18 +37,17 @@ List.prototype.unshift = function(el) {
 	this.end++;
 };
 
-List.prototype.shift = function() {
+List.prototype.shift = function () {
 	if (this.end === -1) {
 		throw "an empty list can't shift";
 	}
 
 	var toReturn = this.data[0];
 
-	for (var i = 0; i <= this.end-1; i++) {
+	for (var i = 0; i <= this.end; i++) {
 		this.data[i] = this.data[i+1];
 	}
 
-	delete this.data[this.end];
 	this.end--;
 	return toReturn;
 };
@@ -68,7 +61,7 @@ List.prototype.clear = function() {
 		throw "an empty list can't clear";
 	}
 
-	this.data = [];
+	this.data = {};
 	this.end = -1;
 };
 
@@ -78,7 +71,6 @@ List.prototype.indexOf = function(el) {
 			return i;
 		}
 	}
-
 	return -1;
 };
 
@@ -87,12 +79,12 @@ List.prototype.size = function() {
 };
 
 List.prototype.insert = function(el, index) {
-	if (index > this.end + 1) {
+	if (index < 0 || index > this.end) {
 		throw "can't insert at an invalid index";
 	}
 
-	for (var i = this.end; i >= index; i--) {
-		this.data[i+1] = this.data[i];
+	for (var i = this.end + 1; i > index; i--) {
+		this.data[i] = this.data[i-1];
 	}
 
 	this.data[index] = el;
@@ -100,45 +92,26 @@ List.prototype.insert = function(el, index) {
 };
 
 List.prototype.remove = function(start, end) {
-	// handle invalid input
+	var range, toReturn = [];
+	end = end || start;
+
 	if (this.end === -1) {
-		throw "can't remove from an empty list"
+		throw "can't remove from an empty list";
 	}
 
-	if (start > this.end || end > this.end) {
+	if (start < 0 || end < 0 || start > this.end || end > this.end) {
 		throw "can't remove an element that doesn't exist";
 	}
 
-	var amountToRemove = end - start + 1;
-	var amountToRemove, toReturn, i;
-
-	// get stuff to remove
-	if (!end) {
-		amountToRemove = 1;
-		toReturn = this.data[start];
+	for (var i = start; i <= end; i++) {
+		toReturn.push(this.data[i]);
 	}
 
-	else if (end) {
-		amountToRemove = end - start + 1;
-		toReturn = [];
-
-		for (i = start; i <= end; i++) {
-			toReturn.push(this.data[i]);
-		}
+	range = end - start + 1;
+	for (var j = end + 1; j <= this.end; j++) {
+		this.data[j - range] = this.data[j];
 	}
-
-	// shift stuff over
-	for (i = start; i <= this.end - amountToRemove; i++) {
-		this.data[i] = this.data[i + amountToRemove];
-	}
-
-	// delete unused slots
-	for (i = this.end; i > this.end - amountToRemove; i--) {
-		delete this.data[i];
-	}
-
-	// adjust this.end
-	this.end -= amountToRemove;
+	this.end -= range;
 
 	return toReturn;
 };

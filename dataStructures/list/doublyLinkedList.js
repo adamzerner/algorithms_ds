@@ -1,5 +1,5 @@
 function Node(el) {
-	this.data = el;
+	this.el = el;
 	this.next = null;
 	this.prev = null;
 }
@@ -11,25 +11,22 @@ function DoublyLinkedList() {
 }
 
 DoublyLinkedList.prototype.toString = function() {
-	if (this._size === 0) {
-		return '';
-	}
-
-	var curr = this.head.next;
 	var str = '';
+	var curr = this.head.next;
 
 	while (curr) {
-		str += curr.data.toString() + ', ';
+		str += curr.el.toString();
 		curr = curr.next;
 	}
 
-	return str.slice(0, -2); // to remove the trailing ', '
+	return str;
 };
 
-DoublyLinkedList.prototype.push = function(el) {
+DoublyLinkedList.prototype.push = function (el) {
 	var newNode = new Node(el);
-	this.tail.next = newNode;
-	newNode.prev = this.tail;
+	var oldTail = this.tail;
+	oldTail.next = newNode;
+	newNode.prev = oldTail;
 	this.tail = newNode;
 	this._size++;
 };
@@ -40,24 +37,25 @@ DoublyLinkedList.prototype.pop = function() {
 	}
 
 	var oldTail = this.tail;
-	var newTail = oldTail.prev;
+	var newTail = this.tail.prev;
 	newTail.next = null;
-
+	this.tail = newTail;
 	this._size--;
-	return oldTail.data;
+	return oldTail.el;
 };
 
 DoublyLinkedList.prototype.unshift = function(el) {
+	if (this._size === 0) {
+		this.push(el);
+		return;
+	}
+
 	var newNode = new Node(el);
 	var oldFirst = this.head.next;
 	this.head.next = newNode;
 	newNode.next = oldFirst;
 	newNode.prev = this.head;
-
-	if (oldFirst) {
-		oldFirst.prev = newNode;
-	}
-
+	oldFirst.prev = newNode;
 	this._size++;
 };
 
@@ -66,33 +64,28 @@ DoublyLinkedList.prototype.shift = function() {
 		throw "an empty list can't shift";
 	}
 
+	if (this._size === 1) {
+		return this.pop();
+	}
+
 	var oldFirst = this.head.next;
 	var newFirst = oldFirst.next;
 	this.head.next = newFirst;
-
-	if (this._size === 1) {
-		this.tail = this.head;
-	}
-	else {
-		newFirst.prev = this.head;
-	}
-
+	newFirst.prev = this.head;
 	this._size--;
-	return oldFirst.data;
+	return oldFirst.el;
 };
 
 DoublyLinkedList.prototype.read = function(index) {
-	if (index >= this._size) {
+	if (index < 0 || index >= this._size) {
 		return undefined;
 	}
 
 	var curr = this.head.next;
-
 	for (var i = 0; i < index; i++) {
 		curr = curr.next;
 	}
-
-	return curr.data;
+	return curr.el;
 };
 
 DoublyLinkedList.prototype.clear = function() {
@@ -100,50 +93,46 @@ DoublyLinkedList.prototype.clear = function() {
 		throw "an empty list can't clear";
 	}
 
-	this.head.next = null;
+	this.head = new Node('head');
 	this.tail = this.head;
 	this._size = 0;
 };
 
 DoublyLinkedList.prototype.indexOf = function(el) {
-	var index = 0;
-	var curr = this.head.next;
+ var curr = this.head.next;
+ var index = 0;
+ while (curr) {
+	 if (curr.el === el) {
+		 return index;
+	 }
 
-	while (curr) {
-		if (curr.data === el) {
-			return index;
-		}
+	 curr = curr.next;
+	 index++;
+ }
 
-		index++;
-		curr = curr.next;
-	}
-
-	return -1;
+ return -1;
 };
-
 
 DoublyLinkedList.prototype.size = function() {
 	return this._size;
 };
 
 DoublyLinkedList.prototype.insert = function(el, index) {
-	if (index > this._size) {
+	if (index < 0 || index >= this._size) {
 		throw "can't insert at an invalid index";
 	}
 
 	var newNode = new Node(el);
-	var previous = this._findPrevious(index);
-	var oldNext = previous.next;
-	previous.next = newNode;
-	newNode.next = oldNext;
-	newNode.prev = previous;
+	var prev = this.head, after;
+	for (var i = 0; i < index; i++) {
+		prev = prev.next;
+	}
 
-	if (oldNext) {
-		oldNext.prev = newNode;
-	}
-	else {
-		this.tail = newNode;
-	}
+	after = prev.next;
+	prev.next = newNode;
+	newNode.prev = prev;
+	newNode.next = after;
+	after.prev = newNode;
 
 	this._size++;
 };
@@ -153,44 +142,29 @@ DoublyLinkedList.prototype.remove = function(start, end) {
 		throw "can't remove from an empty list";
 	}
 
-	if (start >= this._size || end >= this._size) {
+	if (start < 0 || end < 0 || start >= this._size || end >= this._size) {
 		throw "can't remove an element that doesn't exist";
 	}
 
-	var previous = this._findPrevious(start);
-	var after = previous;
-	var range = end ? end - start + 1 : 1;
-	var toReturn = [];
+	end = end || start;
+	var prev = this.head, after, range, toReturn = [];
+	for (var i = 0; i < start; i++) {
+		prev = prev.next;
+	}
 
-	for (var i = 0; i < range; i++) {
+	range = end - start + 1;
+	after = prev.next;
+
+	for (var j = 0; j < range; j++) {
+		toReturn.push(after.el);
 		after = after.next;
-		toReturn.push(after.data);
-	}
-	after = after.next;
-
-	previous.next = after;
-	if (after) {
-		after.previous = previous;
 	}
 
-	if (end === this._size - 1) {
-		this.tail = previous;
+	prev.next = after;
+	if (after !== null) {
+		after.prev = prev;
 	}
 
 	this._size -= range;
-
-	if (toReturn.length === 1) {
-		toReturn = toReturn[0];
-	}
 	return toReturn;
-};
-
-DoublyLinkedList.prototype._findPrevious = function(index) {
-	var curr = this.head;
-
-	for (var i = 0; i < index; i++) {
-		curr = curr.next;
-	}
-
-	return curr;
 };
