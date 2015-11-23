@@ -1,7 +1,7 @@
-var implementations = [{
+var implementations = [/*{
   type: 'Chaining',
   constructor: HashTableChaining
-}, {
+},*/ {
   type: 'Linear Probing',
   constructor: HashTableLinearProbing
 }];

@@ -9,10 +9,16 @@ HashTableLinearProbing.prototype._hash = function(key) {
 HashTableLinearProbing.prototype.insert = function(key, value) {
 	var index = this._hash(key);
 
-	for (var i = index, len = this.data.length; i < len; i++) {
-		if (!this.data[i]) {
-			this.data[i] = { key: key, value: value };
-			break;
+	if (!this.data[index]) {
+		this.data[index] = { key: key, value: value };
+		return;
+	}
+
+	index++;
+	for (var len = this.data.length; index < len; index++) {
+		if (!this.data[index]) {
+			this.data[index] = { key: key, value: value };
+			return;
 		}
 	}
 };
@@ -20,19 +26,19 @@ HashTableLinearProbing.prototype.insert = function(key, value) {
 HashTableLinearProbing.prototype.find = function(key) {
 	var index = this._hash(key);
 
-	for (var i = index, len = this.data.length; i < len; i++) {
-		if (this.data[i] && this.data[i].key === key) {
-			return this.data[i].value;
+	for (var len = this.data.length; index < len; index++) {
+		if (this.data[index] && this.data[index].key === key) {
+			return this.data[index].value;
 		}
 	}
 };
 
 HashTableLinearProbing.prototype.remove = function(key) {
 	var index = this._hash(key);
-	
-	for (var i = index, len = this.data.length; i < len; i++) {
-		if (this.data[i] && this.data[i].key === key) {
-			this.data[i] = null;
+
+	for (var len = this.data.length; index < len; index++) {
+		if (this.data[index] && this.data[index].key === key) {
+			this.data[index] = null;
 		}
 	}
 };
