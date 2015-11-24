@@ -282,11 +282,13 @@ describe('BST', function() {
 
       it('with two children', function() {
         bst = new BST();
-        bst.insert(1);
-        bst.insert(0);
         bst.insert(2);
-        expect(bst.remove(1)).toBe(1);
-        expect(bst.find(1)).toBe(false);
+        bst.insert(1);
+        bst.insert(3);
+        expect(bst.remove(2)).toBe(2);
+        expect(bst.find(2)).toBe(false);
+        expect(bst.find(1)).toBe(true);
+        expect(bst.find(3)).toBe(true);
       });
     });
   });
